@@ -18,10 +18,12 @@ public class WorldController : MonoBehaviour {
 		canvas = GameObject.FindGameObjectWithTag ("Canvas");
 
 		Object.DontDestroyOnLoad (self);
+
+		p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		Debug.Log (GameObject.FindGameObjectWithTag ("Coins").transform.position);
 	}
 }
