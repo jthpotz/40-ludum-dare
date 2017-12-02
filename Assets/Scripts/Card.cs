@@ -8,19 +8,22 @@ using Effect = GlobalConstants.Effect;
 using CardEffects = GlobalConstants.CardEffects;
 using CardName = GlobalConstants.CardName;
 using CardType = GlobalConstants.CardType;
+using Sizings = GlobalConstants.Sizings;
 
-public class Card {
+public class Card : MonoBehaviour {
 
 
 
-	private int weight = 0;
-	private int attack = 0;
-	private int value = 0;
-	private int uses = 0;
-	private Effect action = null; 
-	private CardEffects actionEnum = CardEffects.None;
-	private CardType type;
-	private CardName name;
+	public int weight = 0;
+	public int attack = 0;
+	public int value = 0;
+	public int uses = 0;
+	public Effect action = null; 
+	public CardEffects actionEnum = CardEffects.None;
+	public CardType type;
+	public new CardName name;
+
+	private int pos = 0;
 
 	private GameObject go;
 
@@ -50,12 +53,26 @@ public class Card {
 		get { return name; }
 	}
 
+	public int Pos{
+		get { return pos; }
+		set { pos = value; }
+	} 
+
 	public GameObject GO{
 		get { return go; }
-		set { go = value; }
 	}
 
-	public Card(int w, int a, int v, int u, CardType t, CardName n, CardEffects e = CardEffects.None){
+	void Start(){
+		go = gameObject;
+		go.transform.SetParent (GameObject.FindGameObjectWithTag ("Canvas").transform, false);
+
+	}
+
+	void Update(){
+		
+	}
+
+	public void InitCard(int w, int a, int v, int u, CardType t, CardName n, CardEffects e = CardEffects.None){
 		weight = w;
 		attack = a;
 		value = v;
@@ -74,7 +91,9 @@ public class Card {
 		default:
 			break;
 		}
-		
+
+		BuildCardVisuals (this);
+
 	}
 
 	public void IncreaseCapacity(Player p){
@@ -85,23 +104,24 @@ public class Card {
 		
 	}
 
-	public static Card CreateCard (Card c, GameObject canvas){
-		Card newCard = new Card (c.Weight, c.Attack, c.Value, c.Uses, c.Type, c.Name, c.ActionEnum);
-		newCard.GO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
-
-		BuildCardVisuals (newCard);
-
-		newCard.GO.transform.SetParent (canvas.transform, false);
+	public static Card CreateCard (CardDescriptions c) {
+		GameObject newGO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
+		Card newCard = newGO.GetComponent<Card> ();
+		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.type, c.name);
+		//Card newCard = new Card (c.Weight, c.Attack, c.Value, c.Uses, c.Type, c.Name, c.ActionEnum);
+		//newCard.GO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
+		
 		return newCard;
 	}
 
 	private static void BuildCardVisuals(Card c){
+
 		GameObject curGO = null;
-		if(c.GO.CompareTag ("CardTop") == false){
+		if(c.gameObject.CompareTag ("CardTop") == false){
 			Debug.Log ("There was an issue with the instantiation."); 
 		}
 
-		foreach (Transform ch in c.GO.transform) {
+		foreach (Transform ch in c.gameObject.transform) {
 			if(ch.CompareTag ("CardButton")){
 				foreach (Transform child in ch.transform) {
 					if(child.CompareTag ("CardBack")){
@@ -214,6 +234,13 @@ public class Card {
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
 
+	}
+
+	public void SetCardPosition(){
+		Vector3 v = ((RectTransform)(gameObject.transform)).anchoredPosition;
+		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
+		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
+		((RectTransform)(gameObject.transform)).anchoredPosition = v;
 	}
 
 }

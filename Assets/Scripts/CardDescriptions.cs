@@ -7,9 +7,48 @@ using CardType = GlobalConstants.CardType;
 
 public class CardDescriptions {
 
-	public static readonly Card coins = new Card(2, 1, 3, 1, CardType.Treasure, CardName.Coins);
-	public static readonly Card coinStack = new Card (4, 2, 6, 1, CardType.Treasure, CardName.CoinStack);
+	public int weight;
+	public int attack;
+	public int value;
+	public int uses;
+	public CardType type;
+	public CardName name;
 
-	public static readonly Card rustySword = new Card (4, 4, 1, 1, CardType.Weapon, CardName.RustySword);
+	public static Coins coins = new Coins ();
+	public static CoinStack coinStack = new CoinStack ();
+	public static RustySword rustySword = new RustySword ();
+
+	public class Coins : CardDescriptions{
+		public Coins(){
+			weight = 2;
+			attack = 1;
+			value = 3;
+			uses = 1;
+			type = CardType.Treasure;
+			name = CardName.Coins;
+		}
+	}
+
+	public class CoinStack : CardDescriptions{
+		public CoinStack(){
+				weight = 4;
+				attack = 2;
+				value = 6;
+				uses = 1;
+				type = CardType.Treasure;
+				name = CardName.CoinStack;
+		}
+	}
+
+	public class RustySword : CardDescriptions{
+		public RustySword(){
+				weight = 4;
+				attack = 4;
+				value = 1;
+				uses = 1;
+				type = CardType.Weapon;
+				name = CardName.RustySword;
+		}
+	}
 
 }

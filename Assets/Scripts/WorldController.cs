@@ -30,22 +30,23 @@ public class WorldController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		p.H.UpdateHand ();
 	}
 
 	public void AddStarterCards(){
 		for (int i = 0; i < 4; i++) {
-			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
+			p.H.AddCard (Card.CreateCard (CardDescriptions.coins));
 		}
-		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
+		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
 		for (int i = 0; i < 4; i++) {
-			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
+			p.H.AddCard (Card.CreateCard (CardDescriptions.coins));
 		}
-		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
+		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
 
-		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword, canvas));
+		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword));
+
 	}
-
+		
 	public void DoCard(){
 		
 	}

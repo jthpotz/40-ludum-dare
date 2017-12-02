@@ -27,15 +27,14 @@ public class Hand {
 	public void AddCard(Card c){
 		allCards.Add (c);
 		SetCardPosition (c, allCards.IndexOf (c));
-		UpdateOrder ();
-		UpdateCurrentCapacity ();
-		CanvasController.UpdateCapacity (currentCapacity);
-		CanvasController.UpdateMoney (FindTotalValue ());
 	}
 
 	public void RemoveCard(Card c){
 		GameObject.Destroy (c.GO);
 		allCards.Remove (c);
+	}
+
+	public void UpdateHand(){
 		UpdateOrder ();
 		UpdateCurrentCapacity ();
 		CanvasController.UpdateCapacity (currentCapacity);
@@ -58,16 +57,12 @@ public class Hand {
 
 	public void UpdateOrder(){
 		for(int i = 0; i < allCards.Count; i++){
-			allCards [i].GO.transform.SetSiblingIndex (allCards.Count - 1 - i);
+			allCards [i].gameObject.transform.SetSiblingIndex (allCards.Count - 1 - i);
+			SetCardPosition (allCards[i], i);
 		}
 	}
 
-	public void SetCardPosition(Card c, int pos){
-		Vector3 v = ((RectTransform)(c.GO.transform)).anchoredPosition;
-		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
-		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
-		((RectTransform)(c.GO.transform)).anchoredPosition = v;
-	}
+
 
 	public void UpdateCurrentCapacity (){
 		int sum = 0;
@@ -88,6 +83,13 @@ public class Hand {
 
 		return sum;
 
+	}
+
+	public void SetCardPosition(Card c, int pos){
+		Vector3 v = ((RectTransform)(c.gameObject.transform)).anchoredPosition;
+		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
+		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
+		((RectTransform)(c.gameObject.transform)).anchoredPosition = v;
 	}
 
 }
