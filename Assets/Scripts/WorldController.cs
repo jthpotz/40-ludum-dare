@@ -19,11 +19,18 @@ public class WorldController : MonoBehaviour {
 
 		Object.DontDestroyOnLoad (self);
 
-		p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
+		for(int i = 0; i < 4; i++){
+			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
+		}
+		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
+		for(int i = 0; i < 4; i++){
+			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
+		}
+		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (GameObject.FindGameObjectWithTag ("Coins").transform.position);
+		
 	}
 }

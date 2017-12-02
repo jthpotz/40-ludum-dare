@@ -17,12 +17,13 @@ public class GlobalConstants {
 		CardOffsetX = 150,
 		CardOffsetY = 100,
 		CardStartX = -460,
-		CardStartY = -235,
+		CardStartY = -325,
 		CardsInRow = 7
 	}
 
 	public enum CardType{
-		Coins
+		Coins,
+		CoinStack
 	}
 
 	public static int startMaxCapcacity;

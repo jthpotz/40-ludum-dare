@@ -69,7 +69,7 @@ public class Card {
 	}
 
 	public void DecreaseCapacity(Player p){
-		Debug.Log ("This shouldn't trigger right now");
+		
 	}
 
 	public static Card CreateCard (Card c, GameObject canvas){
