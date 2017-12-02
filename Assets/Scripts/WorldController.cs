@@ -34,14 +34,16 @@ public class WorldController : MonoBehaviour {
 	}
 
 	public void AddStarterCards(){
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
 		}
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
-		for(int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			p.H.AddCard (Card.CreateCard (CardDescriptions.coins, canvas));
 		}
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack, canvas));
+
+		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword, canvas));
 	}
 
 	public void DoCard(){

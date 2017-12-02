@@ -14,6 +14,17 @@ TagManager:
   - CD100s
   - MD1s
   - MD10s
+  - WeightVal
+  - CoinVal
+  - AttackVal
+  - UsesVal
+  - Weight
+  - Coin
+  - Attack
+  - Uses
+  - CardTop
+  - CardButton
+  - CardBack
   layers:
   - Default
   - TransparentFX

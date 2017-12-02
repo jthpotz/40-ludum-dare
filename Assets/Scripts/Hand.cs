@@ -37,6 +37,9 @@ public class Hand {
 		GameObject.Destroy (c.GO);
 		allCards.Remove (c);
 		UpdateOrder ();
+		UpdateCurrentCapacity ();
+		CanvasController.UpdateCapacity (currentCapacity);
+		CanvasController.UpdateMoney (FindTotalValue ());
 	}
 
 	public int ClearHand(){

@@ -62,6 +62,30 @@ public class CanvasController : MonoBehaviour {
 
 	}
 
+	public static void UpdateMaxCapacity(int num){
+		int dig1 = 0;
+		int dig2 = 0;
+
+		dig1 = num % 10;
+		num /= 10;
+		dig2 = num % 10;
+
+		if(SelfScript == null){
+			return;
+		}
+
+		foreach(Transform ch in SelfScript.capacity.transform){
+			if(ch.CompareTag ("MD1s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig1.ToString ());
+			}
+			else if(ch.CompareTag ("MD10s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig2.ToString ());
+			}
+		}
+
+	}
+
+
 	public static void UpdateMoney(int num){
 		int dig1 = 0;
 		int dig2 = 0;
