@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class CanvasController : MonoBehaviour {
 
@@ -16,6 +17,8 @@ public class CanvasController : MonoBehaviour {
 
 	private GameObject capacity;
 	private GameObject money;
+	private GameObject health;
+	private GameObject name;
 
 	// Use this for initialization
 	void Start () {
@@ -115,5 +118,74 @@ public class CanvasController : MonoBehaviour {
 
 	}
 
+	public void AnEnemyAppears(Enemy e){
+		health = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Health"), new Vector2 (), Quaternion.identity) as GameObject;
+		health.transform.SetParent (canvas.transform, false);
+		EnemyName (e);
+	}
+
+
+	public static void UpdateHealth(int num){
+		int dig1 = 0;
+		int dig2 = 0;
+
+		dig1 = num % 10;
+		num /= 10;
+		dig2 = num % 10;
+
+		if(SelfScript == null){
+			return;
+		}
+
+		foreach(Transform ch in SelfScript.health.transform){
+			if(ch.CompareTag ("CD1s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig1.ToString ());
+			}
+			else if(ch.CompareTag ("CD10s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig2.ToString ());
+			}
+		}
+
+	}
+
+	private void EnemyName(Enemy e){
+		name = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Name"), new Vector2 (), Quaternion.identity) as GameObject;
+		name.transform.SetParent (canvas.transform, false);
+
+		string eName = e.Name.ToString ();
+
+		int split = 0;
+
+		GameObject label;
+
+		for (int i = 1; i < eName.Length; i++) {
+			if (Char.IsUpper (eName [i])) {
+				split = i;
+				break;
+			}
+		}
+
+		if(split == 0){
+			split = eName.Length;
+		}
+
+		for(int i = 0; i < split; i++){
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Label"), new Vector2 (GlobalConstants.enemyNameStartCol + (GlobalConstants.enemyNameOffset * (GlobalConstants.enemyLettersPerRow - split)) + i * GlobalConstants.enemyNameOffset, GlobalConstants.enemyNameStartRow), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Letters/" + Char.ToUpper (eName[i]));
+			((RectTransform)(label.transform)).SetParent (name.transform, false);
+		}
+
+		for(int i = split; i < eName.Length; i++){
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Label"), new Vector2 (GlobalConstants.enemyNameStartCol * GlobalConstants.enemyNameOffset, GlobalConstants.enemyNameStartRow - GlobalConstants.enemyNameOffset), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Letters/" + Char.ToUpper (eName[i]));
+			((RectTransform)(label.transform)).SetParent (name.transform, false);
+		}
+
+	}
+
+	public void EnemyDefeated(){
+		GameObject.Destroy (health);
+		GameObject.Destroy (name);
+	}
 
 }

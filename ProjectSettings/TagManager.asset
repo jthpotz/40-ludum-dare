@@ -25,6 +25,7 @@ TagManager:
   - CardTop
   - CardButton
   - CardBack
+  - Heart
   layers:
   - Default
   - TransparentFX

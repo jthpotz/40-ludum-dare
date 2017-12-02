@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System;
 
 using Effect = GlobalConstants.Effect;
-using CardEffects = GlobalConstants.CardEffects;
+using CardEffect = GlobalConstants.CardEffect;
 using CardName = GlobalConstants.CardName;
 using CardType = GlobalConstants.CardType;
 using Sizings = GlobalConstants.Sizings;
@@ -19,7 +19,7 @@ public class Card : MonoBehaviour {
 	public int value = 0;
 	public int uses = 0;
 	public Effect action = null; 
-	public CardEffects actionEnum = CardEffects.None;
+	public CardEffect actionEnum = CardEffect.None;
 	public CardType type;
 	public new CardName name;
 
@@ -43,7 +43,7 @@ public class Card : MonoBehaviour {
 	public Effect Action{
 		get { return action; }
 	}
-	public CardEffects ActionEnum{
+	public CardEffect ActionEnum{
 		get { return actionEnum; }
 	}
 	public CardType Type{
@@ -72,7 +72,9 @@ public class Card : MonoBehaviour {
 		
 	}
 
-	public void InitCard(int w, int a, int v, int u, CardType t, CardName n, CardEffects e = CardEffects.None){
+	public void InitCard(int w, int a, int v, int u, CardType t, CardName n, CardEffect e = CardEffect.None){
+
+
 		weight = w;
 		attack = a;
 		value = v;
@@ -81,12 +83,15 @@ public class Card : MonoBehaviour {
 		name = n;
 
 		actionEnum = e;
-		switch(e){
-		case CardEffects.IncreaseCapacity:
+		switch (e) {
+		case CardEffect.IncreaseCapacity:
 			action = IncreaseCapacity;
 			break;
-		case CardEffects.DecreaseCapacity:
+		case CardEffect.DecreaseCapacity:
 			action = DecreaseCapacity;
+			break;
+		case CardEffect.AttackCard:
+			action = AttackCard;
 			break;
 		default:
 			break;
@@ -96,18 +101,10 @@ public class Card : MonoBehaviour {
 
 	}
 
-	public void IncreaseCapacity(Player p){
-		
-	}
-
-	public void DecreaseCapacity(Player p){
-		
-	}
-
 	public static Card CreateCard (CardDescriptions c) {
 		GameObject newGO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		Card newCard = newGO.GetComponent<Card> ();
-		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.type, c.name);
+		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.type, c.name, c.action);
 		//Card newCard = new Card (c.Weight, c.Attack, c.Value, c.Uses, c.Type, c.Name, c.ActionEnum);
 		//newCard.GO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		
@@ -236,11 +233,30 @@ public class Card : MonoBehaviour {
 
 	}
 
-	public void SetCardPosition(){
-		Vector3 v = ((RectTransform)(gameObject.transform)).anchoredPosition;
-		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
-		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
-		((RectTransform)(gameObject.transform)).anchoredPosition = v;
+	public void DoAction(Card c){
+
+		c.action (GameObject.FindGameObjectWithTag ("WorldController").GetComponent<WorldController> (), this);
+
 	}
 
+	public static void AttackCard(WorldController wc, Card c){
+		wc.DealDamage (c.attack);
+		c.uses--;
+		if(c.uses < 1){
+			wc.p.H.RemoveCard (c);
+		}
+		wc.PlayerTurnOver ();
+	}
+
+	public void IncreaseCapacity(WorldController wc, Card c){
+
+	}
+
+	public void DecreaseCapacity(WorldController wc, Card c){
+
+	}
+
+
 }
+
+

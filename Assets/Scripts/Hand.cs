@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Sizings = GlobalConstants.Sizings;
 
@@ -90,6 +91,18 @@ public class Hand {
 		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
 		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
 		((RectTransform)(c.gameObject.transform)).anchoredPosition = v;
+	}
+
+	public void DisableCards (){
+		foreach (Card c in allCards){
+			c.GetComponentInChildren<Button> ().enabled = false;
+		}
+	}
+
+	public void EnableCards (){
+		foreach (Card c in allCards){
+			c.GetComponentInChildren<Button> ().enabled = true;
+		}
 	}
 
 }
