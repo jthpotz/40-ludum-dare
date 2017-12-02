@@ -7,6 +7,13 @@ TagManager:
   - WorldController
   - Canvas
   - Coins
+  - Capactiy
+  - CanvasController
+  - CD1s
+  - CD10s
+  - CD100s
+  - MD1s
+  - MD10s
   layers:
   - Default
   - TransparentFX

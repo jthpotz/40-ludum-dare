@@ -8,6 +8,18 @@ public class Hand {
 
 	private List<Card> allCards = new List<Card> (0);
 
+	private int totalCapacity = GlobalConstants.startMaxCapcacity;
+	private int currentCapacity = 0;
+
+
+	public int TotalCapacity{
+		get { return totalCapacity; }
+	}
+	public int CurrentCapacity{
+		get { return currentCapacity; }
+	}
+
+
 	public Hand(){
 		
 	}
@@ -16,9 +28,13 @@ public class Hand {
 		allCards.Add (c);
 		SetCardPosition (c, allCards.IndexOf (c));
 		UpdateOrder ();
+		UpdateCurrentCapacity ();
+		CanvasController.UpdateCapacity (currentCapacity);
+		CanvasController.UpdateMoney (FindTotalValue ());
 	}
 
 	public void RemoveCard(Card c){
+		GameObject.Destroy (c.GO);
 		allCards.Remove (c);
 		UpdateOrder ();
 	}
@@ -28,6 +44,7 @@ public class Hand {
 
 		foreach(Card c in allCards){
 			sum += c.Value;
+			GameObject.Destroy (c.GO);
 		}
 
 		allCards.Clear ();
@@ -47,6 +64,27 @@ public class Hand {
 		v.x = (int)Sizings.CardStartX + ((pos % (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetX);
 		v.y = (int)Sizings.CardStartY + ((int)(pos / (int)Sizings.CardsInRow) * (int)Sizings.CardOffsetY);
 		((RectTransform)(c.GO.transform)).anchoredPosition = v;
+	}
+
+	public void UpdateCurrentCapacity (){
+		int sum = 0;
+
+		foreach(Card c in allCards){
+			sum += c.Weight;
+		}
+
+		currentCapacity = sum;
+	}
+
+	public int FindTotalValue(){
+		int sum = 0;
+
+		foreach(Card c in allCards){
+			sum += c.Value;
+		}
+
+		return sum;
+
 	}
 
 }
