@@ -31,10 +31,12 @@ public class GlobalConstants {
 		Rock,
 		Backpack,
 		DullAxe,
-		Blink
+		Blink,
+		ShinySword,
+		LavaLamp
 	}
 
-	public static readonly int numCards = 9;
+	public static readonly int numCards = 11;
 
 	public enum EventName{
 		FindLoot,
@@ -49,7 +51,7 @@ public class GlobalConstants {
 	}
 
 	public enum EventChance{
-		FindLoot = 55,
+		FindLoot = 65,
 		Energize = 20,
 		SuperStrength = 5,
 		Weaken = 10,
@@ -90,17 +92,17 @@ public class GlobalConstants {
 	}
 
 	public enum LootChance{
-		Goblin = 30,
-		Troll = 40,
-		Rat = 50,
-		Minotaur = 40
+		Goblin = 40,
+		Troll = 50,
+		Rat = 60,
+		Minotaur = 50
 	}
 
 	public static readonly int cardNameLetters = 7;
 	public static readonly float cardNameSpacing = .5f;
 	public static readonly float cardNameRowStart = 0;
 
-	public static readonly int startMaxCapcacity = 20;
+	public static readonly int startMaxCapcacity = 25;
 
 	public static readonly Vector3 cardScale = new Vector3(37.5f, 37.5f);
 
@@ -130,6 +132,6 @@ public class GlobalConstants {
 
 	public static readonly int eventDelayTime = 1;
 
-	public static readonly int enemyChance = 20;
-	public static readonly int eventChance = 20;
+	public static readonly int enemyChance = 25;
+	public static readonly int eventChance = 25;
 }

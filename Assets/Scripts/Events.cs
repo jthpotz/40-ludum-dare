@@ -73,11 +73,19 @@ public class Events {
 
 	private static void Speed(WorldController wc){
 		wc.Distance = -5;
+		if(wc.Distance <= 0){
+			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = wc.p.H.ClearHand ();
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
+		}
 		wc.displayMessage.Display ("You dash forward!", wc.canvas);
 	}
 
 	private static void Flash(WorldController wc){
 		wc.Distance = -10;
+		if(wc.Distance <= 0){
+			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = wc.p.H.ClearHand ();
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
+		}
 		wc.displayMessage.Display ("You suddenly sprint far forward!", wc.canvas);
 	}
 

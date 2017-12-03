@@ -26,7 +26,7 @@ public class WorldController : MonoBehaviour {
 
 	private bool playerTurn = true;
 
-	private int distance = 0;
+	private int distance = 4;
 
 	public int Distance{
 		get { return distance; }
@@ -46,7 +46,7 @@ public class WorldController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		distance = Random.Range (GlobalConstants.minDistance, GlobalConstants.maxDistance);
+		//distance = Random.Range (GlobalConstants.minDistance, GlobalConstants.maxDistance);
 
 		self = GameObject.FindGameObjectWithTag ("WorldController");
 		selfScript = self.GetComponent<WorldController> ();
@@ -98,17 +98,15 @@ public class WorldController : MonoBehaviour {
 //			ccScript.AnEnemyAppears (e);
 //			CanvasController.UpdateHealth (e.Health);
 			moveDelay += Time.deltaTime;
-			Debug.Log (moveDelay);
-
-			if(!i1.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(1/4)){
+			if(!i1.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * ((float)1/(float)4)){
 				i1.enabled = true;
 			}
 
-			if(!i2.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(1/2)){
+			if(!i2.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * ((float)1/(float)2)){
 				i2.enabled = true;
 			}
 
-			if(!i3.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(3/4)){
+			if(!i3.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * ((float)3/(float)4)){
 				i3.enabled = true;
 			}
 
@@ -235,7 +233,7 @@ public class WorldController : MonoBehaviour {
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToDeath ();
 		}
 
-		if(distance == 0){
+		if(distance <= 0){
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = p.H.ClearHand ();
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}

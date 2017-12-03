@@ -357,6 +357,10 @@ public class Card : MonoBehaviour {
 		if(c.uses < 1){
 			wc.p.H.RemoveCard (c);
 		}
+		if(wc.Distance <= 0){
+			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = wc.p.H.ClearHand ();
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
+		}
 		CanvasController.UpdateDistance (wc.Distance);
 		wc.PlayerTurnOver ();
 	}

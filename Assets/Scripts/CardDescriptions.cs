@@ -27,6 +27,8 @@ public class CardDescriptions {
 	public static Backpack backpack = new Backpack ();
 	public static DullAxe dullAxe = new DullAxe ();
 	public static Blink blink = new Blink ();
+	public static ShinySword shinySword = new ShinySword ();
+	public static LavaLamp lavaLamp = new LavaLamp ();
 
 	public class Coin : CardDescriptions{
 		public Coin(){
@@ -154,6 +156,34 @@ public class CardDescriptions {
 		}
 	}
 
+	public class ShinySword : CardDescriptions{
+		public ShinySword(){
+			weight = 3;
+			attack = 5;
+			value = 2;
+			uses = 3;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Weapon;
+			name = CardName.ShinySword;
+			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class LavaLamp : CardDescriptions{
+		public LavaLamp(){
+			weight = 5;
+			attack = 4;
+			value = 9;
+			uses = 1;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Treasure;
+			name = CardName.LavaLamp;
+			action = CardEffect.AttackCard;
+		}
+	}
+
 	public static CardDescriptions RandomCard(){
 		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards)){
 		case CardName.Coin:
@@ -174,6 +204,10 @@ public class CardDescriptions {
 			return CardDescriptions.dullAxe;
 		case CardName.Blink:
 			return CardDescriptions.blink;
+		case CardName.ShinySword:
+			return CardDescriptions.shinySword;
+		case CardName.LavaLamp:
+			return CardDescriptions.lavaLamp;
 		default:
 			return null;
 		}

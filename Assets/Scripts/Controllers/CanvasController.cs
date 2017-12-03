@@ -193,6 +193,7 @@ public class CanvasController : MonoBehaviour {
 	}
 
 	public static void UpdateDistance (int num){
+		
 		int dig1 = 0;
 		int dig2 = 0;
 		int dig3 = 0;
