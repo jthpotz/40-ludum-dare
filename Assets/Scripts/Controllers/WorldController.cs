@@ -26,7 +26,7 @@ public class WorldController : MonoBehaviour {
 
 	private bool playerTurn = true;
 
-	private int distance = 4;
+	private int distance = 0;
 
 	public int Distance{
 		get { return distance; }
@@ -46,7 +46,7 @@ public class WorldController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-		//distance = Random.Range (GlobalConstants.minDistance, GlobalConstants.maxDistance);
+		distance = Random.Range (GlobalConstants.minDistance, GlobalConstants.maxDistance);
 
 		self = GameObject.FindGameObjectWithTag ("WorldController");
 		selfScript = self.GetComponent<WorldController> ();
