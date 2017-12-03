@@ -46,6 +46,7 @@ public class Enemy {
 		if(Random.Range (0, 100) < (int)loot){
 			CardDescriptions temp = Card.RandomCard ();
 			wc.p.H.AddCard (Card.CreateCard (temp));
+			wc.p.H.DisableCards ();
 			wc.displayMessage.Display ("The " + this.Name + " dropped a " + temp.name + "!", wc.canvas);
 		}
 		else{

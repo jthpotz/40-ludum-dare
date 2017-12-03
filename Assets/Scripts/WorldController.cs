@@ -4,6 +4,8 @@ using UnityEngine;
 
 using CardEffect = GlobalConstants.CardEffect;
 using SpawnChance = GlobalConstants.SpawnChance;
+using EventChance = GlobalConstants.EventChance;
+using EventName = GlobalConstants.EventName;
 
 public class WorldController : MonoBehaviour {
 
@@ -41,14 +43,11 @@ public class WorldController : MonoBehaviour {
 
 		canvas = GameObject.FindGameObjectWithTag ("Canvas");
 
-		Object.DontDestroyOnLoad (self);
-
 		canvasController = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/CanvasController"), new Vector2 (), Quaternion.identity) as GameObject;
 		ccScript = canvasController.GetComponent<CanvasController> ();
 
 		disp = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/DisplayController"), new Vector2 (), Quaternion.identity) as GameObject;
 		displayMessage = disp.GetComponent<DisplayMessage> ();
-
 
 //		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
 //		displayMessage.Display ("!.?/-^_><@#$%&*", canvas);
@@ -86,20 +85,39 @@ public class WorldController : MonoBehaviour {
 			eventDelay += Time.deltaTime;
 			if(eventDelay >= GlobalConstants.eventDelayTime){
 				eventDelay = 0;
-				if(Random.Range (0, 100) < (int)SpawnChance.Goblin){
-					e = new Enemy (EnemyDescriptions.goblin);
-					ccScript.AnEnemyAppears (e);
-					CanvasController.UpdateHealth (e.Health);
-					displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
-					Invoke("StartPlayerTurn", GlobalConstants.waitTime);
-					return;
+				if(Random.Range (0, 100) < GlobalConstants.enemyChance){
+					while (true) {
+						if (Random.Range (0, 100) < (int)SpawnChance.Goblin) {
+							e = new Enemy (EnemyDescriptions.goblin);
+							ccScript.AnEnemyAppears (e);
+							CanvasController.UpdateHealth (e.Health);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+							return;
+						}
+					}
+				}
+				else if(Random.Range (0, 100) < GlobalConstants.eventChance){
+					while(true){
+						if(Random.Range (0, 100) < (int)EventChance.FindLoot){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.FindLoot, this);
+							p.H.DisableCards ();
+							return;
+						}
+					}
 				}
 			}
 
 		}
 
 		if(p.H.CurrentCapacity > p.H.TotalCapacity){
-			Debug.Log ("Game Over");
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToDeath ();
+		}
+
+		if(distance == 0){
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}
 
 	}
@@ -111,6 +129,8 @@ public class WorldController : MonoBehaviour {
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword));
+
+		p.H.AddCard (Card.CreateCard (CardDescriptions.quickShoe));
 
 	}
 		

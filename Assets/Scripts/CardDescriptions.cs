@@ -12,6 +12,7 @@ public class CardDescriptions {
 	public int attack;
 	public int value;
 	public int uses;
+	public int capacity;
 	public CardType type;
 	public CardName name;
 	public CardEffect action;
@@ -20,6 +21,7 @@ public class CardDescriptions {
 	public static CoinStack coinStack = new CoinStack ();
 	public static RustySword rustySword = new RustySword ();
 	public static SmallRock smallRock = new SmallRock ();
+	public static QuickShoe quickShoe = new QuickShoe ();
 
 	public class Coin : CardDescriptions{
 		public Coin(){
@@ -27,6 +29,7 @@ public class CardDescriptions {
 			attack = 1;
 			value = 3;
 			uses = 1;
+			capacity = 0;
 			type = CardType.Treasure;
 			name = CardName.Coin;
 			action = CardEffect.AttackCard;
@@ -35,10 +38,11 @@ public class CardDescriptions {
 
 	public class CoinStack : CardDescriptions{
 		public CoinStack(){
-			weight = 4;
+			weight = 2;
 			attack = 2;
 			value = 6;
 			uses = 1;
+			capacity = 0;
 			type = CardType.Treasure;
 			name = CardName.CoinStack;
 			action = CardEffect.AttackCard;
@@ -47,10 +51,11 @@ public class CardDescriptions {
 
 	public class RustySword : CardDescriptions{
 		public RustySword(){
-			weight = 4;
+			weight = 3;
 			attack = 4;
 			value = 1;
 			uses = 2;
+			capacity = 0;
 			type = CardType.Weapon;
 			name = CardName.RustySword;
 			action = CardEffect.AttackCard;
@@ -59,13 +64,27 @@ public class CardDescriptions {
 
 	public class SmallRock : CardDescriptions{
 		public SmallRock(){
-			weight = 2;
+			weight = 1;
 			attack = 1;
 			value = 0;
 			uses = 1;
+			capacity = 0;
 			type = CardType.Junk;
 			name = CardName.SmallRock;
 			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class QuickShoe : CardDescriptions{
+		public QuickShoe(){
+			weight = 2;
+			attack = 1;
+			value = 1;
+			uses = 1;
+			capacity = 1;
+			type = CardType.Utility;
+			name = CardName.QuickShoe;
+			action = CardEffect.ChangeCapacity;
 		}
 	}
 

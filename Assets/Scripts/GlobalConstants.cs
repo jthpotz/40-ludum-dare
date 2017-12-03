@@ -8,8 +8,7 @@ public class GlobalConstants {
 	public delegate void Effect(WorldController wc, Card c);
 
 	public enum CardEffect{
-		IncreaseCapacity,
-		DecreaseCapacity,
+		ChangeCapacity,
 		AttackCard,
 		None
 	}
@@ -26,7 +25,16 @@ public class GlobalConstants {
 		Coin,
 		CoinStack,
 		RustySword,
-		SmallRock
+		SmallRock,
+		QuickShoe
+	}
+
+	public enum EventName{
+		FindLoot
+	}
+
+	public enum EventChance{
+		FindLoot = 25
 	}
 
 	public static readonly int numCards = 4;
@@ -63,7 +71,7 @@ public class GlobalConstants {
 
 	public static readonly Vector3 cardScale = new Vector3(37.5f, 37.5f);
 
-	public static readonly float waitTime = 5f;
+	public static readonly float waitTime = .5f;
 
 	public static readonly int lettersPerRow = 20;
 	public static readonly int maxRows = 3;
@@ -88,4 +96,7 @@ public class GlobalConstants {
 	public static readonly int baseTimePerMovem = 5;
 
 	public static readonly int eventDelayTime = 1;
+
+	public static readonly int enemyChance = 20;
+	public static readonly int eventChance = 20;
 }

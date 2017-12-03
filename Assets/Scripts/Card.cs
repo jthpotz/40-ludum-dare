@@ -18,6 +18,7 @@ public class Card : MonoBehaviour {
 	public int attack = 0;
 	public int value = 0;
 	public int uses = 0;
+	public int capacity = 0;
 	public Effect action = null; 
 	public CardEffect actionEnum = CardEffect.None;
 	public CardType type;
@@ -39,6 +40,9 @@ public class Card : MonoBehaviour {
 	}
 	public int Uses{
 		get { return uses; }
+	}
+	public int Capacity{
+		get { return capacity; }
 	}
 	public Effect Action{
 		get { return action; }
@@ -72,23 +76,21 @@ public class Card : MonoBehaviour {
 		
 	}
 
-	public void InitCard(int w, int a, int v, int u, CardType t, CardName n, CardEffect e = CardEffect.None){
+	public void InitCard(int w, int a, int v, int u, int c, CardType t, CardName n, CardEffect e = CardEffect.None){
 
 
 		weight = w;
 		attack = a;
 		value = v;
 		uses = u;
+		capacity = c;
 		type = t;
 		name = n;
 
 		actionEnum = e;
 		switch (e) {
-		case CardEffect.IncreaseCapacity:
-			action = IncreaseCapacity;
-			break;
-		case CardEffect.DecreaseCapacity:
-			action = DecreaseCapacity;
+		case CardEffect.ChangeCapacity:
+			action = ChangeCapacity;
 			break;
 		case CardEffect.AttackCard:
 			action = AttackCard;
@@ -104,7 +106,7 @@ public class Card : MonoBehaviour {
 	public static Card CreateCard (CardDescriptions c) {
 		GameObject newGO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		Card newCard = newGO.GetComponent<Card> ();
-		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.type, c.name, c.action);
+		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.capacity, c.type, c.name, c.action);
 		//Card newCard = new Card (c.Weight, c.Attack, c.Value, c.Uses, c.Type, c.Name, c.ActionEnum);
 		//newCard.GO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		
@@ -133,7 +135,7 @@ public class Card : MonoBehaviour {
 		curGO.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Cards/Backgrounds/" + c.Type.ToString ());
 
 		BuildCardLabels (c, curGO);
-		BuildCardName (c, curGO);
+
 	}
 
 	private static void BuildCardLabels(Card c, GameObject curGO){
@@ -179,6 +181,33 @@ public class Card : MonoBehaviour {
 			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Uses);
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
+
+		if(c.Type == CardType.Utility){
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Weight");
+			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+			if(c.capacity > 0){
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/UpArrow");
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.capacity);
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+			}
+			else if(c.capacity < 0){
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/DownArrow");
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + (-c.capacity));
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+			}
+		}
+
+		BuildCardName (c, curGO);
 
 	}
 
@@ -271,12 +300,15 @@ public class Card : MonoBehaviour {
 		wc.PlayerTurnOver ();
 	}
 
-	public void IncreaseCapacity(WorldController wc, Card c){
-
-	}
-
-	public void DecreaseCapacity(WorldController wc, Card c){
-
+	public void ChangeCapacity(WorldController wc, Card c){
+		wc.displayMessage.Display ("Your capactiy changed by " + c.capacity + "!", wc.canvas);
+		wc.p.H.TotalCapacity = c.capacity;
+		c.uses--;
+		if(c.uses < 1){
+			wc.p.H.RemoveCard (c);
+		}
+		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
+		wc.PlayerTurnOver ();
 	}
 
 	public static CardDescriptions RandomCard(){

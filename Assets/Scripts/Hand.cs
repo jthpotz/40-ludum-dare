@@ -16,6 +16,7 @@ public class Hand {
 
 	public int TotalCapacity{
 		get { return totalCapacity; }
+		set { totalCapacity += value; }
 	}
 	public int CurrentCapacity{
 		get { return currentCapacity; }

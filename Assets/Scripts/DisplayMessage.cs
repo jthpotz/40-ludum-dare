@@ -6,13 +6,11 @@ using UnityEngine.UI;
 
 public class DisplayMessage : MonoBehaviour {
 
-	//@ = heart, & = weight, $ = coin, ^ = up arrow, _ = down arrow, < = left arrow, > = right arrow, - = negative, / = slash, % = hammer, ! = !, . = ., ? = ?, # = attack, * = exit
+	//@ = heart, & = weight, $ = coin, ^ = up arrow, _ = down arrow, < = left arrow, > = right arrow, - = negative, / = slash, % = hammer, ! = !, . = ., ? = ?, # = attack, * = distance
 
 	public bool curDisplay;
 
 	private GameObject msgHere;
-
-	private WorldController wc;
 
 	void Start(){
 		
@@ -20,10 +18,6 @@ public class DisplayMessage : MonoBehaviour {
 
 	void Update(){
 		
-	}
-
-	public void Init(WorldController wc){
-		this.wc = wc;
 	}
 
 	private IEnumerator DirtyHack(string msg, GameObject canvas, bool manClear, float delay){
