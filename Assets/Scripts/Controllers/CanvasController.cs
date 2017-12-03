@@ -20,6 +20,7 @@ public class CanvasController : MonoBehaviour {
 	private GameObject health;
 	private GameObject enemyName;
 	private GameObject distance;
+	private GameObject kills;
 
 	// Use this for initialization
 	void Start () {
@@ -37,6 +38,9 @@ public class CanvasController : MonoBehaviour {
 
 		distance = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Distance"), new Vector2 (), Quaternion.identity) as GameObject;
 		distance.transform.SetParent (canvas.transform, false);
+
+		kills = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Kills"), new Vector2 (), Quaternion.identity) as GameObject;
+		kills.transform.SetParent (canvas.transform, false);
 
 		GameObject.FindGameObjectWithTag ("WorldController").GetComponent<WorldController> ().AddStarterCards ();
 	}
@@ -222,4 +226,33 @@ public class CanvasController : MonoBehaviour {
 
 	}
 
+
+	public static void UpdateKills(int num){
+		int dig1 = 0;
+		int dig2 = 0;
+		int dig3 = 0;
+
+		dig1 = num % 10;
+		num /= 10;
+		dig2 = num % 10;
+		num /= 10;
+		dig3 = num % 10;
+
+		if(SelfScript == null){
+			return;
+		}
+
+		foreach(Transform ch in SelfScript.kills.transform){
+			if(ch.CompareTag ("CD1s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig1.ToString ());
+			}
+			else if(ch.CompareTag ("CD10s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig2.ToString ());
+			}
+			else if(ch.CompareTag ("CD100s")){
+				ch.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + dig3.ToString ());
+			}
+		}
+
+	}
 }

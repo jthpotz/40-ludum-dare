@@ -103,6 +103,9 @@ public class Card : MonoBehaviour {
 		case CardEffect.Transport:
 			action = Transport;
 			break;
+		case CardEffect.Struggle:
+			action = Struggle;
+			break;
 		default:
 			break;
 		}
@@ -172,7 +175,7 @@ public class Card : MonoBehaviour {
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
 
-		if(c.Type == CardType.Junk || c.Type == CardType.Treasure || c.Type == CardType.Weapon){ 
+		if(c.Type == CardType.Junk || c.Type == CardType.Treasure || c.Type == CardType.Weapon || c.Type == CardType.Struggle){ 
 			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 1f), Quaternion.identity) as GameObject;
 			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Attack");
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
@@ -239,6 +242,20 @@ public class Card : MonoBehaviour {
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + (-c.teleport));
 				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 			}
+		}
+
+		if(c.Type == CardType.Struggle){
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Weight");
+			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/DownArrow");
+			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1.5f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + (-c.capacity));
+			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
 
 		BuildCardName (c, curGO);
@@ -309,8 +326,19 @@ public class Card : MonoBehaviour {
 	}
 
 	public static void AttackCard(WorldController wc, Card c){
-		wc.displayMessage.Display ("You hit the " + wc.e.Name + " for " + c.attack + " damage.", wc.canvas, wc.aControl.enemyAttack);
-		wc.DealDamage (c.attack);
+		int attack = c.attack;
+		Card junk = null;
+
+		if(c.Name == CardName.SmallSling || c.Name == CardName.HeavySling){
+			junk = wc.p.H.FindCard (CardType.Junk);
+			if(junk != null){
+				attack += junk.attack;
+				wc.p.H.RemoveCard (junk);
+			}
+		}
+
+		wc.displayMessage.Display ("You hit the " + wc.e.Name + " for " + attack + " damage.", wc.canvas, wc.aControl.enemyAttack);
+		wc.DealDamage (attack);
 		c.uses--;
 		if(c.uses < 1){
 			wc.p.H.RemoveCard (c);
@@ -362,6 +390,14 @@ public class Card : MonoBehaviour {
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}
 		CanvasController.UpdateDistance (wc.Distance);
+		wc.PlayerTurnOver ();
+	}
+
+	public void Struggle(WorldController wc, Card c){
+		wc.displayMessage.Display ("You hurt yourself and the " + wc.e.name, wc.canvas, wc.aControl.enemyAttack);
+		wc.DealDamage (c.attack);
+		wc.p.H.TotalCapacity = c.capacity;
+		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
 		wc.PlayerTurnOver ();
 	}
 

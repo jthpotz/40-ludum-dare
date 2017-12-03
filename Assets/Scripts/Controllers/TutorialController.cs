@@ -118,8 +118,19 @@ public class TutorialController : MonoBehaviour {
 
 	public void Damage(){
 		displayMessage.Display ("All cards have an # value.", canvas);
+		Invoke ("Kills", GlobalConstants.waitTime); 
+	}
+
+	public void Kills(){
+		displayMessage.Display ("# also logs bested enemies.", canvas);
+		Invoke ("Kills2", GlobalConstants.waitTime); 
+	}
+
+	public void Kills2(){
+		displayMessage.Display ("Bested enemies count is below loot.", canvas);
 		Invoke ("Weapon", GlobalConstants.waitTime); 
 	}
+
 
 	public void Weapon(){
 		displayMessage.Display ("Weapons are orange and high #", canvas);
@@ -133,6 +144,16 @@ public class TutorialController : MonoBehaviour {
 
 	public void GeneralUse(){
 		displayMessage.Display ("Unless listed % is 1", canvas);
+		Invoke ("Slings", GlobalConstants.waitTime);
+	}
+
+	public void Slings(){
+		displayMessage.Display ("Slings are special weapons.", canvas);
+		Invoke ("Slings2", GlobalConstants.waitTime);
+	}
+
+	public void Slings2(){
+		displayMessage.Display ("They will also throw a random junk", canvas);
 		Invoke ("Treasure", GlobalConstants.waitTime);
 	}
 
@@ -143,6 +164,11 @@ public class TutorialController : MonoBehaviour {
 
 	public void Utility(){
 		displayMessage.Display ("Can ^ or _ your &", canvas);
+		Invoke ("Spell", GlobalConstants.waitTime);
+	}
+
+	public void Spell(){
+		displayMessage.Display ("Spells are blue and can ^ or _ *", canvas);
 		Invoke ("HaveFun", GlobalConstants.waitTime);
 	}
 

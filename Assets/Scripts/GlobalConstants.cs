@@ -11,6 +11,7 @@ public class GlobalConstants {
 		ChangeCapacity,
 		AttackCard,
 		Transport,
+		Struggle,
 		None
 	}
 
@@ -33,10 +34,13 @@ public class GlobalConstants {
 		DullAxe,
 		Blink,
 		ShinySword,
-		LavaLamp
+		LavaLamp,
+		SmallSling,
+		HeavySling,
+		Punch
 	}
 
-	public static readonly int numCards = 11;
+	public static readonly int numCards = 13;
 
 	public enum EventName{
 		FindLoot,
@@ -51,7 +55,7 @@ public class GlobalConstants {
 	}
 
 	public enum EventChance{
-		FindLoot = 65,
+		FindLoot = 75,
 		Energize = 20,
 		SuperStrength = 5,
 		Weaken = 10,
@@ -67,35 +71,53 @@ public class GlobalConstants {
 		Weapon,
 		Utility,
 		Spell,
-		Junk
+		Junk,
+		Struggle
+	}
+
+	public enum CardDrop{
+		Treasure = 20,
+		Weapon = 15,
+		Utility = 15,
+		Spell = 10,
+		Junk= 10,
+		Struggle = 0
 	}
 
 	public enum EnemyName{
 		Goblin,
 		Troll,
 		Rat,
-		Minotaur
+		Minotaur,
+		Theif,
+		Wolf
 	}
 
 	public enum EnemyAttack{
 		ThrowSmall,
 		Throw,
 		HitSmall,
-		Hit
+		Hit,
+		Steal,
+		Drag
 	}
 
 	public enum SpawnChance{
 		Goblin = 25,
 		Troll = 10,
 		Rat = 15,
-		Minotaur = 5
+		Minotaur = 5,
+		Thief = 15,
+		Wolf = 10
 	}
 
 	public enum LootChance{
 		Goblin = 40,
 		Troll = 50,
 		Rat = 60,
-		Minotaur = 50
+		Minotaur = 50,
+		Thief = 30,
+		Wolf = 50
 	}
 
 	public static readonly int cardNameLetters = 7;
@@ -125,13 +147,13 @@ public class GlobalConstants {
 	public static readonly float messageDisplayTime = waitTime;
 
 
-	public static readonly int minDistance = 50;
-	public static readonly int maxDistance = 100;
+	public static readonly int minDistance = 40;
+	public static readonly int maxDistance = 60;
 
 	public static readonly int baseTimePerMovem = 5;
 
 	public static readonly int eventDelayTime = 1;
 
 	public static readonly int enemyChance = 25;
-	public static readonly int eventChance = 25;
+	public static readonly int eventChance = 20;
 }

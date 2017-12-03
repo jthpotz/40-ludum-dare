@@ -60,13 +60,13 @@ public class Events {
 	}
 
 	private static void Weaken(WorldController wc){
-		wc.p.H.TotalCapacity = 2;
+		wc.p.H.TotalCapacity = -2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
 		wc.displayMessage.Display ("You feel weaker!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void ParalyzingWeakness(WorldController wc){
-		wc.p.H.TotalCapacity = 4;
+		wc.p.H.TotalCapacity = -4;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
 		wc.displayMessage.Display ("You suddenly feel super weak!", wc.canvas, wc.aControl.powerUp);
 	}

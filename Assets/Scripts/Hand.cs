@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using Sizings = GlobalConstants.Sizings;
+using CardType = GlobalConstants.CardType;
 
 public class Hand {
 
@@ -28,13 +29,32 @@ public class Hand {
 	}
 
 	public void AddCard(Card c){
+		if(allCards.Count == 1 && allCards[0].Type == CardType.Struggle){
+			RemoveCard (allCards[0]);
+		}
 		allCards.Add (c);
 		SetCardPosition (c, allCards.IndexOf (c));
 	}
 
 	public void RemoveCard(Card c){
+		if(c.Type != CardType.Struggle && allCards.Count == 1){
+			allCards.Add (Card.CreateCard (CardDescriptions.punch));
+		}
 		GameObject.Destroy (c.GO);
 		allCards.Remove (c);
+	}
+
+	public Card FindCard(CardType type){
+		List<Card> temp = new List<Card> (0);
+		foreach(Card c in allCards){
+			if(c.Type == type){
+				temp.Add (c);
+			}
+		}
+		if(temp.Count == 0){
+			return null;
+		}
+		return temp[Random.Range (0, temp.Count)];
 	}
 
 	public void UpdateHand(){

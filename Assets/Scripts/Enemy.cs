@@ -39,6 +39,9 @@ public class Enemy {
 		case EnemyAttack.Hit:
 			action = Hit;
 			break;
+		case EnemyAttack.Drag:
+			action = Drag;
+			break;
 		default:
 			break;
 		}
@@ -67,10 +70,17 @@ public class Enemy {
 
 	public void ThrowSmall(WorldController wc, Card c){
 		int rocks = Random.Range (1, 3);
-		for(int i = 0; i < rocks; i++){
+		if(rocks == 2){
 			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
+			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
+			wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rocks at you.", wc.canvas, wc.aControl.enemyAttack);
 		}
-		wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rocks at you.", wc.canvas, wc.aControl.enemyAttack);
+		else{
+			rocks = 1;
+			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
+			wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rock at you.", wc.canvas, wc.aControl.enemyAttack);
+		}
+		
 		wc.p.H.DisableCards ();
 	}
 
@@ -91,6 +101,13 @@ public class Enemy {
 		wc.p.H.TotalCapacity = -2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
 		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas, wc.aControl.enemyAttack);
+		wc.p.H.DisableCards ();
+	}
+
+	public void Drag(WorldController wc, Card c){
+		wc.Distance = 3;
+		CanvasController.UpdateDistance (wc.Distance);
+		wc.displayMessage.Display ("The " + wc.e.name + " dragged you backwards 5!", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 

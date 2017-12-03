@@ -5,6 +5,7 @@ using UnityEngine;
 using CardName = GlobalConstants.CardName;
 using CardType = GlobalConstants.CardType;
 using CardEffect = GlobalConstants.CardEffect;
+using CardDrop = GlobalConstants.CardDrop;
 
 public class CardDescriptions {
 
@@ -18,17 +19,20 @@ public class CardDescriptions {
 	public CardName name;
 	public CardEffect action;
 
-	public static Coin coin = new Coin ();
-	public static CoinStack coinStack = new CoinStack ();
-	public static RustySword rustySword = new RustySword ();
-	public static SmallRock smallRock = new SmallRock ();
-	public static QuickShoe quickShoe = new QuickShoe ();
-	public static Rock rock = new Rock ();
-	public static Backpack backpack = new Backpack ();
-	public static DullAxe dullAxe = new DullAxe ();
-	public static Blink blink = new Blink ();
-	public static ShinySword shinySword = new ShinySword ();
-	public static LavaLamp lavaLamp = new LavaLamp ();
+	public static readonly Coin coin = new Coin ();
+	public static readonly CoinStack coinStack = new CoinStack ();
+	public static readonly RustySword rustySword = new RustySword ();
+	public static readonly SmallRock smallRock = new SmallRock ();
+	public static readonly QuickShoe quickShoe = new QuickShoe ();
+	public static readonly Rock rock = new Rock ();
+	public static readonly Backpack backpack = new Backpack ();
+	public static readonly DullAxe dullAxe = new DullAxe ();
+	public static readonly Blink blink = new Blink ();
+	public static readonly ShinySword shinySword = new ShinySword ();
+	public static readonly LavaLamp lavaLamp = new LavaLamp ();
+	public static readonly SmallSling smallSling = new SmallSling ();
+	public static readonly HeavySling heavySling = new HeavySling ();
+	public static readonly Punch punch = new Punch ();
 
 	public class Coin : CardDescriptions{
 		public Coin(){
@@ -184,7 +188,98 @@ public class CardDescriptions {
 		}
 	}
 
+	public class SmallSling : CardDescriptions{
+		public SmallSling(){
+			weight = 1;
+			attack = 1;
+			value = 2;
+			uses = 6;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Weapon;
+			name = CardName.SmallSling;
+			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class HeavySling : CardDescriptions{
+		public HeavySling(){
+			weight = 3;
+			attack = 3;
+			value = 2;
+			uses = 3;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Weapon;
+			name = CardName.HeavySling;
+			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class Punch : CardDescriptions{
+		public Punch(){
+			weight = 1;
+			attack = 2;
+			value = 0;
+			uses = 1;
+			capacity = -attack;
+			teleport = 0;
+			type = CardType.Struggle;
+			name = CardName.Punch;
+			action = CardEffect.Struggle;
+		}
+	}
+
 	public static CardDescriptions RandomCard(){
+
+		CardDescriptions cd = null;
+
+		while(true){
+			if(Random.Range (0, 100) < (int)CardDrop.Weapon){
+				while(true){
+					cd = CardDescriptions.GetDescription((CardName)UnityEngine.Random.Range (0, GlobalConstants.numCards));
+					if(cd.type == CardType.Weapon){
+						return cd;
+					}
+				}
+			}
+			if(Random.Range (0, 100) < (int)CardDrop.Utility){
+				while(true){
+					cd = CardDescriptions.GetDescription((CardName)UnityEngine.Random.Range (0, GlobalConstants.numCards));
+					if(cd.type == CardType.Utility){
+						return cd;
+					}
+				}
+			}
+			if(Random.Range (0, 100) < (int)CardDrop.Spell){
+				while(true){
+					cd = CardDescriptions.GetDescription((CardName)UnityEngine.Random.Range (0, GlobalConstants.numCards));
+					if(cd.type == CardType.Spell){
+						return cd;
+					}
+				}
+			}
+			if(Random.Range (0, 100) < (int)CardDrop.Treasure){
+				while(true){
+					cd = CardDescriptions.GetDescription((CardName)UnityEngine.Random.Range (0, GlobalConstants.numCards));
+					if(cd.type == CardType.Treasure){
+						return cd;
+					}
+				}
+			}
+			if(Random.Range (0, 100) < (int)CardDrop.Junk){
+				while(true){
+					cd = CardDescriptions.GetDescription((CardName)UnityEngine.Random.Range (0, GlobalConstants.numCards));
+					if(cd.type == CardType.Junk){
+						return cd;
+					}
+				}
+			}
+		}
+
+	}
+
+	private static CardDescriptions GetDescription(CardName cName){
 		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards)){
 		case CardName.Coin:
 			return CardDescriptions.coin;
@@ -208,6 +303,12 @@ public class CardDescriptions {
 			return CardDescriptions.shinySword;
 		case CardName.LavaLamp:
 			return CardDescriptions.lavaLamp;
+		case CardName.SmallSling:
+			return CardDescriptions.smallSling;
+		case CardName.HeavySling:
+			return CardDescriptions.heavySling;
+		case CardName.Punch:
+			return CardDescriptions.punch;
 		default:
 			return null;
 		}

@@ -17,6 +17,7 @@ public class EnemyDescriptions {
 	public static readonly Troll troll = new Troll ();
 	public static readonly Rat rat = new Rat ();
 	public static readonly Minotaur minotaur = new Minotaur ();
+	public static readonly Wolf wolf = new Wolf ();
 
 	public class Goblin : EnemyDescriptions {
 		public Goblin (){
@@ -47,10 +48,19 @@ public class EnemyDescriptions {
 
 	public class Minotaur : EnemyDescriptions {
 		public Minotaur (){
-			health = 3;
+			health = 5;
 			name = EnemyName.Minotaur;
 			attack = EnemyAttack.Hit;
 			loot = LootChance.Minotaur;
+		}
+	}
+
+	public class Wolf : EnemyDescriptions {
+		public Wolf (){
+			health = 4;
+			name = EnemyName.Wolf;
+			attack = EnemyAttack.Drag;
+			loot = LootChance.Wolf;
 		}
 	}
 

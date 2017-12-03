@@ -46,6 +46,8 @@ public class WorldController : MonoBehaviour {
 	public GameObject aControlGO;
 	public AudioController aControl;
 
+	public int kills = 0;
+
 	// Use this for initialization
 	void Start () {
 
@@ -90,7 +92,17 @@ public class WorldController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		CanvasController.UpdateDistance (distance);
+		CanvasController.UpdateMaxCapacity (p.H.TotalCapacity);
 		p.H.UpdateHand ();
+
+		if(msgDone && p.H.CurrentCapacity > p.H.TotalCapacity){
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToDeath ();
+		}
+
+		if(distance <= 0){
+			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = p.H.ClearHand ();
+			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
+		}
 
 		if(playerTurn == false){
 			playerTurn = true;
@@ -157,6 +169,14 @@ public class WorldController : MonoBehaviour {
 						}
 						if (Random.Range (0, 100) < (int)SpawnChance.Minotaur) {
 							e = new Enemy (EnemyDescriptions.minotaur);
+							ccScript.AnEnemyAppears (e);
+							CanvasController.UpdateHealth (e.Health);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
+							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+							return;
+						}
+						if (Random.Range (0, 100) < (int)SpawnChance.Wolf) {
+							e = new Enemy (EnemyDescriptions.wolf);
 							ccScript.AnEnemyAppears (e);
 							CanvasController.UpdateHealth (e.Health);
 							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
@@ -236,19 +256,10 @@ public class WorldController : MonoBehaviour {
 
 		}
 
-		if(p.H.CurrentCapacity > p.H.TotalCapacity){
-			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToDeath ();
-		}
-
-		if(distance <= 0){
-			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = p.H.ClearHand ();
-			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
-		}
-
 	}
 
 	public void AddStarterCards(){
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 2; i++) {
 			p.H.AddCard (Card.CreateCard (CardDescriptions.coin));
 		}
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
@@ -259,6 +270,7 @@ public class WorldController : MonoBehaviour {
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.blink));
 
+		p.H.AddCard (Card.CreateCard (CardDescriptions.smallSling));
 	}
 		
 	public void DealDamage(int dmg){
@@ -267,6 +279,8 @@ public class WorldController : MonoBehaviour {
 		CanvasController.UpdateHealth (e.Health);
 		if(e.Dead ()){
 			displayMessage.Display ("You defeated a " + e.Name + "!", canvas, aControl.enemyDefeated);
+			kills++;
+			CanvasController.UpdateKills (kills);
 			ccScript.EnemyDefeated ();
 			Invoke ("EnemyDies", GlobalConstants.waitTime);
 			Invoke ("GetRidOfEnemy", GlobalConstants.waitTime); 
