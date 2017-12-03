@@ -43,6 +43,9 @@ public class WorldController : MonoBehaviour {
 	private Image i2;
 	private Image i3;
 
+	public GameObject aControlGO;
+	public AudioController aControl;
+
 	// Use this for initialization
 	void Start () {
 
@@ -73,6 +76,10 @@ public class WorldController : MonoBehaviour {
 				i3 = ch.GetComponent<Image> ();
 			}
 		}
+
+		aControlGO = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/AudioController"), new Vector2 (), Quaternion.identity) as GameObject;
+		aControl = aControlGO.GetComponent<AudioController> ();
+
 
 //		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
 //		displayMessage.Display ("!.?/-^_><@#$%&*", canvas);
@@ -128,7 +135,7 @@ public class WorldController : MonoBehaviour {
 							e = new Enemy (EnemyDescriptions.goblin);
 							ccScript.AnEnemyAppears (e);
 							CanvasController.UpdateHealth (e.Health);
-							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
 							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 							return;
 						}
@@ -136,7 +143,7 @@ public class WorldController : MonoBehaviour {
 							e = new Enemy (EnemyDescriptions.troll);
 							ccScript.AnEnemyAppears (e);
 							CanvasController.UpdateHealth (e.Health);
-							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
 							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 							return;
 						}
@@ -144,7 +151,7 @@ public class WorldController : MonoBehaviour {
 							e = new Enemy (EnemyDescriptions.rat);
 							ccScript.AnEnemyAppears (e);
 							CanvasController.UpdateHealth (e.Health);
-							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
 							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 							return;
 						}
@@ -152,7 +159,7 @@ public class WorldController : MonoBehaviour {
 							e = new Enemy (EnemyDescriptions.minotaur);
 							ccScript.AnEnemyAppears (e);
 							CanvasController.UpdateHealth (e.Health);
-							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas, aControl.enemyAppear);
 							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 							return;
 						}
@@ -259,7 +266,7 @@ public class WorldController : MonoBehaviour {
 		e.DealDamage (dmg);
 		CanvasController.UpdateHealth (e.Health);
 		if(e.Dead ()){
-			displayMessage.Display ("You defeated a " + e.Name + "!", canvas);
+			displayMessage.Display ("You defeated a " + e.Name + "!", canvas, aControl.enemyDefeated);
 			ccScript.EnemyDefeated ();
 			Invoke ("EnemyDies", GlobalConstants.waitTime);
 			Invoke ("GetRidOfEnemy", GlobalConstants.waitTime); 

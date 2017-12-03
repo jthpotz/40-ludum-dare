@@ -30,7 +30,7 @@ public class VictoryController : MonoBehaviour {
 	}
 
 	void Results(){
-		displayMessage.Display ("You escaped with " + GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score + " loot!", canvas, true);
+		displayMessage.Display ("You escaped with " + GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score + " loot!", canvas, null, true);
 	}
 
 }

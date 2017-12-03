@@ -58,7 +58,7 @@ public class Enemy {
 			CardDescriptions temp = CardDescriptions.RandomCard ();
 			wc.p.H.AddCard (Card.CreateCard (temp));
 			wc.p.H.DisableCards ();
-			wc.displayMessage.Display ("The " + this.Name + " dropped a " + temp.name + "!", wc.canvas);
+			wc.displayMessage.Display ("The " + this.Name + " dropped a " + temp.name + "!", wc.canvas, wc.aControl.item);
 		}
 		else{
 			wc.displayMessage.Display ("The " + this.name + " dropped nothing...", wc.canvas);
@@ -70,27 +70,27 @@ public class Enemy {
 		for(int i = 0; i < rocks; i++){
 			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
 		}
-		wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rocks at you.", wc.canvas);
+		wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rocks at you.", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 
 	public void Throw(WorldController wc, Card c){
 		wc.p.H.AddCard (Card.CreateCard (CardDescriptions.rock));
-		wc.displayMessage.Display ("The " + wc.e.Name + " threw a rock at you.", wc.canvas);
+		wc.displayMessage.Display ("The " + wc.e.Name + " threw a rock at you.", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 
 	public void HitSmall(WorldController wc, Card c){
 		wc.p.H.TotalCapacity = -1;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas);
+		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 
 	public void Hit(WorldController wc, Card c){
 		wc.p.H.TotalCapacity = -2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas);
+		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 

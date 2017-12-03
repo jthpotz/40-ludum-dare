@@ -309,7 +309,7 @@ public class Card : MonoBehaviour {
 	}
 
 	public static void AttackCard(WorldController wc, Card c){
-		wc.displayMessage.Display ("You hit the " + wc.e.Name + " for " + c.attack + " damage.", wc.canvas);
+		wc.displayMessage.Display ("You hit the " + wc.e.Name + " for " + c.attack + " damage.", wc.canvas, wc.aControl.enemyAttack);
 		wc.DealDamage (c.attack);
 		c.uses--;
 		if(c.uses < 1){
@@ -335,7 +335,7 @@ public class Card : MonoBehaviour {
 	}
 
 	public void ChangeCapacity(WorldController wc, Card c){
-		wc.displayMessage.Display ("Your capactiy changed by " + c.capacity + "!", wc.canvas);
+		wc.displayMessage.Display ("Your capactiy changed by " + c.capacity + "!", wc.canvas, wc.aControl.powerUp);
 		wc.p.H.TotalCapacity = c.capacity;
 		c.uses--;
 		if(c.uses < 1){

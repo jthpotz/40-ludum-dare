@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 
 public class DisplayMessage : MonoBehaviour {
 
@@ -12,28 +13,36 @@ public class DisplayMessage : MonoBehaviour {
 
 	private GameObject msgHere;
 
+	private AudioSource source;
+
 	void Start(){
-		
+
+		source = GetComponent<AudioSource> ();
+
 	}
 
 	void Update(){
 		
 	}
 
-	private IEnumerator DirtyHack(string msg, GameObject canvas, bool manClear, float delay){
+	private IEnumerator DirtyHack(string msg, GameObject canvas, AudioClip audioClip, bool manClear, float delay){
 		yield return new WaitForSeconds (delay);
-		Display (msg, canvas, manClear);
+		Display (msg, canvas, audioClip, manClear);
 	}
 
-	public void Display(string msg, GameObject canvas, bool manClear = false){
+	public void Display(string msg, GameObject canvas, AudioClip audioClip = null, bool manClear = false){
 
 
 		if(curDisplay){
-			StartCoroutine (DirtyHack (msg, canvas, manClear, .1f));
+			StartCoroutine (DirtyHack (msg, canvas, audioClip, manClear, .1f));
 			return;
 		}
 
 		curDisplay = true;
+
+		if(audioClip != null){
+			source.PlayOneShot (audioClip, .5f);
+		}
 
 		msgHere = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/Msg"), new Vector2 (), Quaternion.identity) as GameObject;
 		msgHere.transform.SetParent (canvas.transform, false);

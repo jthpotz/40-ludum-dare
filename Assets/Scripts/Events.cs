@@ -44,31 +44,31 @@ public class Events {
 	private static void FindLoot(WorldController wc){
 		CardDescriptions temp = CardDescriptions.RandomCard ();
 		wc.p.H.AddCard (Card.CreateCard (temp));
-		wc.displayMessage.Display ("You found a " + temp.name + "!", wc.canvas);
+		wc.displayMessage.Display ("You found a " + temp.name + "!", wc.canvas, wc.aControl.item);
 	}
 
 	private static void Energize(WorldController wc){
 		wc.p.H.TotalCapacity = 2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("You feel stronger!", wc.canvas);
+		wc.displayMessage.Display ("You feel stronger!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void SuperStrength(WorldController wc){
 		wc.p.H.TotalCapacity = 4;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("You suddenly gain super strength!", wc.canvas);
+		wc.displayMessage.Display ("You suddenly gain super strength!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Weaken(WorldController wc){
 		wc.p.H.TotalCapacity = 2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("You feel weaker!", wc.canvas);
+		wc.displayMessage.Display ("You feel weaker!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void ParalyzingWeakness(WorldController wc){
 		wc.p.H.TotalCapacity = 4;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("You suddenly feel super weak!", wc.canvas);
+		wc.displayMessage.Display ("You suddenly feel super weak!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Speed(WorldController wc){
@@ -77,7 +77,7 @@ public class Events {
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = wc.p.H.ClearHand ();
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}
-		wc.displayMessage.Display ("You dash forward!", wc.canvas);
+		wc.displayMessage.Display ("You dash forward!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Flash(WorldController wc){
@@ -86,17 +86,17 @@ public class Events {
 			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = wc.p.H.ClearHand ();
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}
-		wc.displayMessage.Display ("You suddenly sprint far forward!", wc.canvas);
+		wc.displayMessage.Display ("You suddenly sprint far forward!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Lost(WorldController wc){
 		wc.Distance = -5;
-		wc.displayMessage.Display ("You get slightly turned around!", wc.canvas);
+		wc.displayMessage.Display ("You get slightly turned around!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Bewildered(WorldController wc){
 		wc.Distance = -10;
-		wc.displayMessage.Display ("You realize you are lost!", wc.canvas);
+		wc.displayMessage.Display ("You realize you are lost!", wc.canvas, wc.aControl.powerUp);
 	}
 
 }

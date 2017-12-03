@@ -30,7 +30,7 @@ public class DeathController : MonoBehaviour {
 	}
 
 	void Results(){
-		displayMessage.Display ("Over burdened with loot you collapse...", canvas, true);
+		displayMessage.Display ("Over burdened with loot you collapse...", canvas, null, true);
 	}
 
 }
