@@ -311,21 +311,6 @@ public class Card : MonoBehaviour {
 		wc.PlayerTurnOver ();
 	}
 
-	public static CardDescriptions RandomCard(){
-		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards)){
-		case CardName.Coin:
-			return CardDescriptions.coin;
-		case CardName.CoinStack:
-			return CardDescriptions.coinStack;
-		case CardName.RustySword:
-			return CardDescriptions.rustySword;
-		case CardName.SmallRock:
-			return CardDescriptions.smallRock;
-		default:
-			return null;
-		}
-	}
-
 }
 
 

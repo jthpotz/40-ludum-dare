@@ -25,7 +25,7 @@ public class WorldController : MonoBehaviour {
 
 	private bool playerTurn = true;
 
-	private int distance;
+	private int distance = 0;
 
 
 	private float moveDelay;
@@ -117,6 +117,7 @@ public class WorldController : MonoBehaviour {
 		}
 
 		if(distance == 0){
+			GameObject.FindGameObjectWithTag ("Score").GetComponent<Score> ().score = p.H.ClearHand ();
 			GameObject.FindGameObjectWithTag ("MenuNavigation").GetComponent<MenuNavigation> ().ToVictory ();
 		}
 

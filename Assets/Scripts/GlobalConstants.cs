@@ -71,7 +71,7 @@ public class GlobalConstants {
 
 	public static readonly Vector3 cardScale = new Vector3(37.5f, 37.5f);
 
-	public static readonly float waitTime = .5f;
+	public static readonly float waitTime = 3f;
 
 	public static readonly int lettersPerRow = 20;
 	public static readonly int maxRows = 3;
@@ -87,11 +87,11 @@ public class GlobalConstants {
 	public static readonly int msgOffset = 50;
 	public static readonly int msgLettersPerRow = (550 - GlobalConstants.msgStartCol) / GlobalConstants.msgOffset;
 
-	public static readonly float messageDisplayTime = 5;
+	public static readonly float messageDisplayTime = waitTime;
 
 
 	public static readonly int minDistance = 50;
-	public static readonly int maxDistance = 150;
+	public static readonly int maxDistance = 100;
 
 	public static readonly int baseTimePerMovem = 5;
 

@@ -17,7 +17,7 @@ public class EnemyDescriptions {
 
 	public class Goblin : EnemyDescriptions {
 		public Goblin (){
-			health = 5;
+			health = 6;
 			name = EnemyName.Goblin;
 			attack = EnemyAttack.Hit;
 			loot = LootChance.Goblin;

@@ -18,7 +18,7 @@ public class Events {
 
 
 	private static void FindLoot(WorldController wc){
-		CardDescriptions temp = Card.RandomCard ();
+		CardDescriptions temp = CardDescriptions.RandomCard ();
 		wc.p.H.AddCard (Card.CreateCard (temp));
 		wc.displayMessage.Display ("You found a " + temp.name + "!", wc.canvas);
 	}

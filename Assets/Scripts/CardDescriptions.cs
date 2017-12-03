@@ -65,7 +65,7 @@ public class CardDescriptions {
 	public class SmallRock : CardDescriptions{
 		public SmallRock(){
 			weight = 1;
-			attack = 1;
+			attack = 2;
 			value = 0;
 			uses = 1;
 			capacity = 0;
@@ -85,6 +85,21 @@ public class CardDescriptions {
 			type = CardType.Utility;
 			name = CardName.QuickShoe;
 			action = CardEffect.ChangeCapacity;
+		}
+	}
+
+	public static CardDescriptions RandomCard(){
+		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards + 1)){
+		case CardName.Coin:
+			return CardDescriptions.coin;
+		case CardName.CoinStack:
+			return CardDescriptions.coinStack;
+		case CardName.RustySword:
+			return CardDescriptions.rustySword;
+		case CardName.SmallRock:
+			return CardDescriptions.smallRock;
+		default:
+			return null;
 		}
 	}
 

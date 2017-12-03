@@ -44,7 +44,7 @@ public class Enemy {
 
 	public void OnDeath(WorldController wc){
 		if(Random.Range (0, 100) < (int)loot){
-			CardDescriptions temp = Card.RandomCard ();
+			CardDescriptions temp = CardDescriptions.RandomCard ();
 			wc.p.H.AddCard (Card.CreateCard (temp));
 			wc.p.H.DisableCards ();
 			wc.displayMessage.Display ("The " + this.Name + " dropped a " + temp.name + "!", wc.canvas);
