@@ -4,12 +4,14 @@ using UnityEngine;
 
 using EnemyName = GlobalConstants.EnemyName;
 using EnemyAttack = GlobalConstants.EnemyAttack;
+using LootChance = GlobalConstants.LootChance;
 
 public class EnemyDescriptions {
 
 	public int health;
 	public EnemyName name;
 	public EnemyAttack attack;
+	public LootChance loot;
 
 	public static readonly Goblin goblin = new Goblin ();
 
@@ -18,6 +20,7 @@ public class EnemyDescriptions {
 			health = 5;
 			name = EnemyName.Goblin;
 			attack = EnemyAttack.Hit;
+			loot = LootChance.Goblin;
 		}
 	}
 

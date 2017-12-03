@@ -133,10 +133,12 @@ public class Card : MonoBehaviour {
 		curGO.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Cards/Backgrounds/" + c.Type.ToString ());
 
 		BuildCardLabels (c, curGO);
-
+		BuildCardName (c, curGO);
 	}
 
 	private static void BuildCardLabels(Card c, GameObject curGO){
+
+		ResetLabels (c, curGO);
 
 		GameObject label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 2.5f), Quaternion.identity) as GameObject;
 		label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Weight");
@@ -177,8 +179,6 @@ public class Card : MonoBehaviour {
 			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Uses);
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
-
-		BuildCardName (c, curGO);
 
 	}
 
@@ -233,6 +233,12 @@ public class Card : MonoBehaviour {
 
 	}
 
+	public static void ResetLabels(Card c, GameObject curGo){
+		foreach(Transform ch in curGo.transform){
+			GameObject.Destroy (ch.gameObject);
+		}
+	}
+
 	public void DoAction(Card c){
 
 		c.action (GameObject.FindGameObjectWithTag ("WorldController").GetComponent<WorldController> (), this);
@@ -240,10 +246,27 @@ public class Card : MonoBehaviour {
 	}
 
 	public static void AttackCard(WorldController wc, Card c){
+		wc.displayMessage.Display ("You hit the " + wc.e.Name + " for " + c.attack + " damage.", wc.canvas);
 		wc.DealDamage (c.attack);
 		c.uses--;
 		if(c.uses < 1){
 			wc.p.H.RemoveCard (c);
+		}
+		else{
+			GameObject curGO = null;
+			foreach (Transform ch in c.gameObject.transform) {
+				if(ch.CompareTag ("CardButton")){
+					foreach (Transform child in ch.transform) {
+						if(child.CompareTag ("CardBack")){
+							curGO = child.gameObject;
+						}
+					}
+				}
+			}
+			if(curGO == null){
+				Debug.Log ("There was an issue with finding the children."); 
+			}
+			BuildCardLabels (c, curGO);
 		}
 		wc.PlayerTurnOver ();
 	}
@@ -256,6 +279,20 @@ public class Card : MonoBehaviour {
 
 	}
 
+	public static CardDescriptions RandomCard(){
+		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards)){
+		case CardName.Coin:
+			return CardDescriptions.coin;
+		case CardName.CoinStack:
+			return CardDescriptions.coinStack;
+		case CardName.RustySword:
+			return CardDescriptions.rustySword;
+		case CardName.SmallRock:
+			return CardDescriptions.smallRock;
+		default:
+			return null;
+		}
+	}
 
 }
 

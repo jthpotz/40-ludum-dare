@@ -9,9 +9,10 @@ public class Hand {
 
 	private List<Card> allCards = new List<Card> (0);
 
-	private int totalCapacity = GlobalConstants.startMaxCapcacity;
-	private int currentCapacity = 0;
+	public int totalCapacity = GlobalConstants.startMaxCapcacity;
+	public int currentCapacity = 0;
 
+	public bool enabled = true;
 
 	public int TotalCapacity{
 		get { return totalCapacity; }
@@ -94,12 +95,14 @@ public class Hand {
 	}
 
 	public void DisableCards (){
+		enabled = false;
 		foreach (Card c in allCards){
 			c.GetComponentInChildren<Button> ().enabled = false;
 		}
 	}
 
 	public void EnableCards (){
+		enabled = true;
 		foreach (Card c in allCards){
 			c.GetComponentInChildren<Button> ().enabled = true;
 		}

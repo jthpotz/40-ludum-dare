@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class DisplayMessage : MonoBehaviour {
 
-	//@ = heart, & = weight, $ = coin, ^ = up arrow, _ = down arrow, < = left arrow, > = right arrow, - = negative, / = slash, % = hammer, ! = !, . = ., ? = ?, # = attack
+	//@ = heart, & = weight, $ = coin, ^ = up arrow, _ = down arrow, < = left arrow, > = right arrow, - = negative, / = slash, % = hammer, ! = !, . = ., ? = ?, # = attack, * = exit
 
 	public bool curDisplay;
 
@@ -28,21 +28,16 @@ public class DisplayMessage : MonoBehaviour {
 
 	private IEnumerator DirtyHack(string msg, GameObject canvas, bool manClear, float delay){
 		yield return new WaitForSeconds (delay);
-		Debug.Log ("after wait");
 		Display (msg, canvas, manClear);
 	}
 
 	public void Display(string msg, GameObject canvas, bool manClear = false){
 
-		Debug.Log ("In Display");
 
 		if(curDisplay){
-			Debug.Log ("Waiting to display: " + msg);
 			StartCoroutine (DirtyHack (msg, canvas, manClear, .1f));
 			return;
 		}
-
-		Debug.Log ("Displaying: " + msg);
 
 		curDisplay = true;
 
@@ -61,22 +56,17 @@ public class DisplayMessage : MonoBehaviour {
 			return;
 		}
 
-		Debug.Log (GlobalConstants.msgLettersPerRow);
-		Debug.Log (msg.Length);
-		Debug.Log (split);
-
 		MakeRow (msg, split, 0);
 		MakeRow (msg, split, 1);
 
 		if(!manClear){
-			Invoke ("ClearMessage", 2);
+			Invoke ("ClearMessage", GlobalConstants.messageDisplayTime);
 		}
 	}
 
 	public void ClearMessage(){
 		GameObject.Destroy (msgHere);
 		curDisplay = false;
-		Debug.Log ("Done displaying msg");
 	}
 
 	private int Split(string msg){
@@ -134,7 +124,7 @@ public class DisplayMessage : MonoBehaviour {
 		
 			if (msg[i] == '1' || msg[i] == '2' || msg[i] == '3' || msg[i] == '4' || msg[i] == '5' || msg[i] == '6' || msg[i] == '7' || msg[i] == '8' || msg[i] == '9' || msg[i] == '0'){
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + msg[i]);	
-			}else if(!(msg[i] == '@' || msg[i] == '&' || msg[i] == '$' || msg[i] == '^' || msg[i] == '_' || msg[i] == '<' || msg[i] == '>' || msg[i] == '/' || msg[i] == '-' || msg[i] == '%' || msg[i] == '!' || msg[i] == '?' || msg[i] == '.' || msg[i] == '#')){
+			}else if(!(msg[i] == '@' || msg[i] == '&' || msg[i] == '$' || msg[i] == '^' || msg[i] == '_' || msg[i] == '<' || msg[i] == '>' || msg[i] == '/' || msg[i] == '-' || msg[i] == '%' || msg[i] == '!' || msg[i] == '?' || msg[i] == '.' || msg[i] == '#' || msg[i] == '*')){
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Letters/" + Char.ToUpper (msg[i]));	
 			}
 			else{
@@ -180,6 +170,9 @@ public class DisplayMessage : MonoBehaviour {
 					break;
 				case '#':
 					label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Attack");	
+					break;
+				case '*':
+					label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Exit");	
 					break;
 				default:
 					break;

@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using CardEffect = GlobalConstants.CardEffect;
+using SpawnChance = GlobalConstants.SpawnChance;
 
 public class WorldController : MonoBehaviour {
 
 	private GameObject self;
 	private WorldController selfScript;
 
-	private GameObject canvas;
+	public GameObject canvas;
 	private GameObject canvasController;
 	private CanvasController ccScript;
 
 	private GameObject disp;
-	private DisplayMessage displayMessage;
+	public DisplayMessage displayMessage;
 
 	public Player p = new Player();
 
@@ -22,8 +23,18 @@ public class WorldController : MonoBehaviour {
 
 	private bool playerTurn = true;
 
+	private int distance;
+
+
+	private float moveDelay;
+	private float eventDelay;
+
+	private bool msgDone = true;
+
 	// Use this for initialization
 	void Start () {
+
+		distance = Random.Range (GlobalConstants.minDistance, GlobalConstants.maxDistance);
 
 		self = GameObject.FindGameObjectWithTag ("WorldController");
 		selfScript = self.GetComponent<WorldController> ();
@@ -39,26 +50,52 @@ public class WorldController : MonoBehaviour {
 		displayMessage = disp.GetComponent<DisplayMessage> ();
 
 
-		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
-		displayMessage.Display ("!.?/-^_><@#$%&", canvas);
-		displayMessage.Display ("Doing more display testing right here.", canvas);
-		displayMessage.Display ("Even more display testing.", canvas);
+//		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
+//		displayMessage.Display ("!.?/-^_><@#$%&*", canvas);
+//		displayMessage.Display ("Doing more display testing right here.", canvas);
+//		displayMessage.Display ("Even more display testing.", canvas);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		CanvasController.UpdateDistance (distance);
 		p.H.UpdateHand ();
 
 		if(playerTurn == false){
 			playerTurn = true;
-			EnemyTurn ();
-			Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+			Invoke ("EnemyTurn", GlobalConstants.waitTime);
 		}
 
-		if(e == null){
-			e = new Enemy (EnemyDescriptions.goblin);
-			ccScript.AnEnemyAppears (e);
-			CanvasController.UpdateHealth (e.Health);
+		if(e == null && msgDone){
+			if(p.H.enabled){
+				p.H.DisableCards ();
+			}
+//			e = new Enemy (EnemyDescriptions.goblin);
+//			ccScript.AnEnemyAppears (e);
+//			CanvasController.UpdateHealth (e.Health);
+			moveDelay += Time.deltaTime;
+			Debug.Log (moveDelay);
+			Debug.Log (GlobalConstants.baseTimePerMovem * (p.H.CurrentCapacity / p.H.TotalCapacity));
+			Debug.Log (p.H.CurrentCapacity + ", " + p.H.TotalCapacity);
+			if (moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity)) {
+				moveDelay = 0;
+				distance--;
+				CanvasController.UpdateDistance (distance);
+			}
+
+			eventDelay += Time.deltaTime;
+			if(eventDelay >= GlobalConstants.eventDelayTime){
+				eventDelay = 0;
+				if(Random.Range (0, 100) < (int)SpawnChance.Goblin){
+					e = new Enemy (EnemyDescriptions.goblin);
+					ccScript.AnEnemyAppears (e);
+					CanvasController.UpdateHealth (e.Health);
+					displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+					Invoke("StartPlayerTurn", GlobalConstants.waitTime);
+					return;
+				}
+			}
+
 		}
 
 		if(p.H.CurrentCapacity > p.H.TotalCapacity){
@@ -69,7 +106,7 @@ public class WorldController : MonoBehaviour {
 
 	public void AddStarterCards(){
 		for (int i = 0; i < 4; i++) {
-			p.H.AddCard (Card.CreateCard (CardDescriptions.coins));
+			p.H.AddCard (Card.CreateCard (CardDescriptions.coin));
 		}
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
 
@@ -78,11 +115,15 @@ public class WorldController : MonoBehaviour {
 	}
 		
 	public void DealDamage(int dmg){
+		msgDone = false;
 		e.DealDamage (dmg);
 		CanvasController.UpdateHealth (e.Health);
 		if(e.Dead ()){
+			displayMessage.Display ("You defeated a " + e.Name + "!", canvas);
 			ccScript.EnemyDefeated ();
-			e = null;
+			Invoke ("EnemyDies", GlobalConstants.waitTime);
+			Invoke ("GetRidOfEnemy", GlobalConstants.waitTime); 
+			Invoke ("MsgDone", GlobalConstants.waitTime*3);
 		}
 	}
 
@@ -96,10 +137,23 @@ public class WorldController : MonoBehaviour {
 			return;
 		}
 		e.action (this, null);
+		Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 	}
 
 	public void StartPlayerTurn(){
 		p.H.EnableCards ();
+	}
+
+	public void GetRidOfEnemy(){
+		e = null;
+	}
+
+	public void MsgDone(){
+		msgDone = true;
+	}
+
+	public void EnemyDies(){
+		e.OnDeath (this);
 	}
 
 }

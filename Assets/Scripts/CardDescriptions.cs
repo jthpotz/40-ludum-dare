@@ -16,19 +16,19 @@ public class CardDescriptions {
 	public CardName name;
 	public CardEffect action;
 
-	public static Coins coins = new Coins ();
+	public static Coin coin = new Coin ();
 	public static CoinStack coinStack = new CoinStack ();
 	public static RustySword rustySword = new RustySword ();
-	public static SmallRocks smallRocks = new SmallRocks ();
+	public static SmallRock smallRock = new SmallRock ();
 
-	public class Coins : CardDescriptions{
-		public Coins(){
-			weight = 2;
+	public class Coin : CardDescriptions{
+		public Coin(){
+			weight = 1;
 			attack = 1;
 			value = 3;
 			uses = 1;
 			type = CardType.Treasure;
-			name = CardName.Coins;
+			name = CardName.Coin;
 			action = CardEffect.AttackCard;
 		}
 	}
@@ -50,21 +50,21 @@ public class CardDescriptions {
 			weight = 4;
 			attack = 4;
 			value = 1;
-			uses = 1;
+			uses = 2;
 			type = CardType.Weapon;
 			name = CardName.RustySword;
 			action = CardEffect.AttackCard;
 		}
 	}
 
-	public class SmallRocks : CardDescriptions{
-		public SmallRocks(){
+	public class SmallRock : CardDescriptions{
+		public SmallRock(){
 			weight = 2;
 			attack = 1;
 			value = 0;
 			uses = 1;
 			type = CardType.Junk;
-			name = CardName.SmallRocks;
+			name = CardName.SmallRock;
 			action = CardEffect.AttackCard;
 		}
 	}
