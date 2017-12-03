@@ -13,6 +13,9 @@ public class WorldController : MonoBehaviour {
 	private GameObject canvasController;
 	private CanvasController ccScript;
 
+	private GameObject disp;
+	private DisplayMessage displayMessage;
+
 	public Player p = new Player();
 
 	public Enemy e = null;
@@ -30,8 +33,16 @@ public class WorldController : MonoBehaviour {
 		Object.DontDestroyOnLoad (self);
 
 		canvasController = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/CanvasController"), new Vector2 (), Quaternion.identity) as GameObject;
-
 		ccScript = canvasController.GetComponent<CanvasController> ();
+
+		disp = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/DisplayController"), new Vector2 (), Quaternion.identity) as GameObject;
+		displayMessage = disp.GetComponent<DisplayMessage> ();
+
+
+		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
+		displayMessage.Display ("!.?/-^_><@#$%&", canvas);
+		displayMessage.Display ("Doing more display testing right here.", canvas);
+		displayMessage.Display ("Even more display testing.", canvas);
 	}
 	
 	// Update is called once per frame
