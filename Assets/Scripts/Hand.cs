@@ -9,7 +9,7 @@ public class Hand {
 
 	private List<Card> allCards = new List<Card> (0);
 
-	public int totalCapacity = GlobalConstants.startMaxCapcacity;
+	private int totalCapacity = GlobalConstants.startMaxCapcacity;
 	public int currentCapacity = 0;
 
 	public bool enabled = true;

@@ -19,6 +19,7 @@ public class Card : MonoBehaviour {
 	public int value = 0;
 	public int uses = 0;
 	public int capacity = 0;
+	public int teleport = 0;
 	public Effect action = null; 
 	public CardEffect actionEnum = CardEffect.None;
 	public CardType type;
@@ -43,6 +44,9 @@ public class Card : MonoBehaviour {
 	}
 	public int Capacity{
 		get { return capacity; }
+	}
+	public int Teleport{
+		get { return teleport; }
 	}
 	public Effect Action{
 		get { return action; }
@@ -76,7 +80,7 @@ public class Card : MonoBehaviour {
 		
 	}
 
-	public void InitCard(int w, int a, int v, int u, int c, CardType t, CardName n, CardEffect e = CardEffect.None){
+	public void InitCard(int w, int a, int v, int u, int c, int tel, CardType t, CardName n, CardEffect e = CardEffect.None){
 
 
 		weight = w;
@@ -84,6 +88,7 @@ public class Card : MonoBehaviour {
 		value = v;
 		uses = u;
 		capacity = c;
+		teleport = tel;
 		type = t;
 		name = n;
 
@@ -94,6 +99,9 @@ public class Card : MonoBehaviour {
 			break;
 		case CardEffect.AttackCard:
 			action = AttackCard;
+			break;
+		case CardEffect.Transport:
+			action = Transport;
 			break;
 		default:
 			break;
@@ -106,7 +114,7 @@ public class Card : MonoBehaviour {
 	public static Card CreateCard (CardDescriptions c) {
 		GameObject newGO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		Card newCard = newGO.GetComponent<Card> ();
-		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.capacity, c.type, c.name, c.action);
+		newCard.InitCard (c.weight, c.attack, c.value, c.uses, c.capacity, c.teleport, c.type, c.name, c.action);
 		//Card newCard = new Card (c.Weight, c.Attack, c.Value, c.Uses, c.Type, c.Name, c.ActionEnum);
 		//newCard.GO = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/GenericCard"), new Vector3 (), Quaternion.identity) as GameObject;
 		
@@ -164,45 +172,71 @@ public class Card : MonoBehaviour {
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 		}
 
-		label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 1f), Quaternion.identity) as GameObject;
-		label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Attack");
-		((RectTransform)(label.transform)).SetParent (curGO.transform, false);
-
-		label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
-		label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Attack);
-		((RectTransform)(label.transform)).SetParent (curGO.transform, false);
-
-		if(c.Type == CardType.Weapon){
-			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
-			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Hammer");
+		if(c.Type == CardType.Junk || c.Type == CardType.Treasure || c.Type == CardType.Weapon){ 
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Attack");
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 
-			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
-			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Uses);
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Attack);
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+			if(c.Type == CardType.Weapon){
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Hammer");
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.Uses);
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+			}
 		}
-
 		if(c.Type == CardType.Utility){
-			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 1f), Quaternion.identity) as GameObject;
 			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Weight");
 			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 
 			if(c.capacity > 0){
-				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/UpArrow");
 				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 
-				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1.5f, 1f), Quaternion.identity) as GameObject;
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.capacity);
 				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 			}
 			else if(c.capacity < 0){
-				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1f, 1f), Quaternion.identity) as GameObject;
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/DownArrow");
 				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 
-				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (1.5f, 1f), Quaternion.identity) as GameObject;
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
 				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + (-c.capacity));
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+			}
+		}
+
+		if(c.Type == CardType.Spell){
+			label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-1f, 1f), Quaternion.identity) as GameObject;
+			label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/Exit");
+			((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+			if(c.teleport > 0){
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/UpArrow");
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + c.teleport);
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+			}
+			else if(c.teleport < 0){
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (-.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Symbols/DownArrow");
+				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
+
+				label = GameObject.Instantiate (Resources.Load ("Prefabs/Cards/Label"), new Vector2 (.5f, 1f), Quaternion.identity) as GameObject;
+				label.transform.GetComponent<Image> ().sprite = Resources.Load<Sprite> ("Images/Numbers/" + (-c.teleport));
 				((RectTransform)(label.transform)).SetParent (curGO.transform, false);
 			}
 		}
@@ -308,6 +342,22 @@ public class Card : MonoBehaviour {
 			wc.p.H.RemoveCard (c);
 		}
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
+		wc.PlayerTurnOver ();
+	}
+
+	public void Transport(WorldController wc, Card c){
+		if(c.teleport < 0){
+			wc.displayMessage.Display ("You teleported " + (-c.teleport) + " forward!", wc.canvas);
+		}
+		else{
+			wc.displayMessage.Display ("You teleported " + c.teleport + " backward!", wc.canvas);
+		}
+		wc.Distance = c.teleport;
+		c.uses--;
+		if(c.uses < 1){
+			wc.p.H.RemoveCard (c);
+		}
+		CanvasController.UpdateDistance (wc.Distance);
 		wc.PlayerTurnOver ();
 	}
 

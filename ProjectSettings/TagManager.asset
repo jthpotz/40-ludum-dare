@@ -28,6 +28,9 @@ TagManager:
   - Heart
   - MenuNavigation
   - Score
+  - Dot1
+  - Dot2
+  - Dot3
   layers:
   - Default
   - TransparentFX

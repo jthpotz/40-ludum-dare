@@ -14,13 +14,43 @@ public class EnemyDescriptions {
 	public LootChance loot;
 
 	public static readonly Goblin goblin = new Goblin ();
+	public static readonly Troll troll = new Troll ();
+	public static readonly Rat rat = new Rat ();
+	public static readonly Minotaur minotaur = new Minotaur ();
 
 	public class Goblin : EnemyDescriptions {
 		public Goblin (){
 			health = 6;
 			name = EnemyName.Goblin;
-			attack = EnemyAttack.Hit;
+			attack = EnemyAttack.ThrowSmall;
 			loot = LootChance.Goblin;
+		}
+	}
+
+	public class Troll : EnemyDescriptions {
+		public Troll (){
+			health = 8;
+			name = EnemyName.Troll;
+			attack = EnemyAttack.Throw;
+			loot = LootChance.Troll;
+		}
+	}
+
+	public class Rat : EnemyDescriptions {
+		public Rat (){
+			health = 5;
+			name = EnemyName.Rat;
+			attack = EnemyAttack.HitSmall;
+			loot = LootChance.Rat;
+		}
+	}
+
+	public class Minotaur : EnemyDescriptions {
+		public Minotaur (){
+			health = 3;
+			name = EnemyName.Minotaur;
+			attack = EnemyAttack.Hit;
+			loot = LootChance.Minotaur;
 		}
 	}
 

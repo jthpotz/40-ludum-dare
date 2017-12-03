@@ -13,6 +13,7 @@ public class CardDescriptions {
 	public int value;
 	public int uses;
 	public int capacity;
+	public int teleport;
 	public CardType type;
 	public CardName name;
 	public CardEffect action;
@@ -22,14 +23,19 @@ public class CardDescriptions {
 	public static RustySword rustySword = new RustySword ();
 	public static SmallRock smallRock = new SmallRock ();
 	public static QuickShoe quickShoe = new QuickShoe ();
+	public static Rock rock = new Rock ();
+	public static Backpack backpack = new Backpack ();
+	public static DullAxe dullAxe = new DullAxe ();
+	public static Blink blink = new Blink ();
 
 	public class Coin : CardDescriptions{
 		public Coin(){
-			weight = 1;
+			weight = 2;
 			attack = 1;
 			value = 3;
 			uses = 1;
 			capacity = 0;
+			teleport = 0;
 			type = CardType.Treasure;
 			name = CardName.Coin;
 			action = CardEffect.AttackCard;
@@ -38,11 +44,12 @@ public class CardDescriptions {
 
 	public class CoinStack : CardDescriptions{
 		public CoinStack(){
-			weight = 2;
+			weight = 4;
 			attack = 2;
 			value = 6;
 			uses = 1;
 			capacity = 0;
+			teleport = 0;
 			type = CardType.Treasure;
 			name = CardName.CoinStack;
 			action = CardEffect.AttackCard;
@@ -56,6 +63,7 @@ public class CardDescriptions {
 			value = 1;
 			uses = 2;
 			capacity = 0;
+			teleport = 0;
 			type = CardType.Weapon;
 			name = CardName.RustySword;
 			action = CardEffect.AttackCard;
@@ -69,6 +77,7 @@ public class CardDescriptions {
 			value = 0;
 			uses = 1;
 			capacity = 0;
+			teleport = 0;
 			type = CardType.Junk;
 			name = CardName.SmallRock;
 			action = CardEffect.AttackCard;
@@ -82,14 +91,71 @@ public class CardDescriptions {
 			value = 1;
 			uses = 1;
 			capacity = 1;
+			teleport = 0;
 			type = CardType.Utility;
 			name = CardName.QuickShoe;
 			action = CardEffect.ChangeCapacity;
 		}
 	}
 
+	public class Rock : CardDescriptions{
+		public Rock(){
+			weight = 2;
+			attack = 3;
+			value = 0;
+			uses = 1;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Junk;
+			name = CardName.Rock;
+			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class Backpack : CardDescriptions{
+		public Backpack(){
+			weight = 1;
+			attack = 2;
+			value = 3;
+			uses = 1;
+			capacity = 2;
+			teleport = 0;
+			type = CardType.Utility;
+			name = CardName.Backpack;
+			action = CardEffect.ChangeCapacity;
+		}
+	}
+
+	public class DullAxe : CardDescriptions{
+		public DullAxe(){
+			weight = 3;
+			attack = 2;
+			value = 2;
+			uses = 3;
+			capacity = 0;
+			teleport = 0;
+			type = CardType.Weapon;
+			name = CardName.DullAxe;
+			action = CardEffect.AttackCard;
+		}
+	}
+
+	public class Blink : CardDescriptions{
+		public Blink(){
+			weight = 1;
+			attack = 1;
+			value = 2;
+			uses = 1;
+			capacity = 0;
+			teleport = -5;
+			type = CardType.Spell;
+			name = CardName.Blink;
+			action = CardEffect.Transport;
+		}
+	}
+
 	public static CardDescriptions RandomCard(){
-		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards + 1)){
+		switch((CardName)UnityEngine.Random.Range(0, GlobalConstants.numCards)){
 		case CardName.Coin:
 			return CardDescriptions.coin;
 		case CardName.CoinStack:
@@ -98,6 +164,16 @@ public class CardDescriptions {
 			return CardDescriptions.rustySword;
 		case CardName.SmallRock:
 			return CardDescriptions.smallRock;
+		case CardName.QuickShoe:
+			return CardDescriptions.quickShoe;
+		case CardName.Rock:
+			return CardDescriptions.rock;
+		case CardName.Backpack:
+			return CardDescriptions.backpack;
+		case CardName.DullAxe:
+			return CardDescriptions.dullAxe;
+		case CardName.Blink:
+			return CardDescriptions.blink;
 		default:
 			return null;
 		}

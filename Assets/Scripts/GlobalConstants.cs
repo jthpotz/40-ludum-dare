@@ -10,6 +10,7 @@ public class GlobalConstants {
 	public enum CardEffect{
 		ChangeCapacity,
 		AttackCard,
+		Transport,
 		None
 	}
 
@@ -26,41 +27,73 @@ public class GlobalConstants {
 		CoinStack,
 		RustySword,
 		SmallRock,
-		QuickShoe
+		QuickShoe,
+		Rock,
+		Backpack,
+		DullAxe,
+		Blink
 	}
 
+	public static readonly int numCards = 9;
+
 	public enum EventName{
-		FindLoot
+		FindLoot,
+		Energize,
+		SuperStrength,
+		Weaken,
+		ParalysingWeakness,
+		Speed,
+		Flash,
+		Lost,
+		Bewildered
 	}
 
 	public enum EventChance{
-		FindLoot = 25
+		FindLoot = 55,
+		Energize = 20,
+		SuperStrength = 5,
+		Weaken = 10,
+		ParalysingWeakness = 1,
+		Speed = 20,
+		Flash = 5,
+		Lost = 10,
+		Bewildered = 1
 	}
-
-	public static readonly int numCards = 4;
 
 	public enum CardType{
 		Treasure,
 		Weapon,
 		Utility,
-		Consumable,
+		Spell,
 		Junk
 	}
 
 	public enum EnemyName{
-		Goblin
+		Goblin,
+		Troll,
+		Rat,
+		Minotaur
 	}
 
 	public enum EnemyAttack{
+		ThrowSmall,
+		Throw,
+		HitSmall,
 		Hit
 	}
 
 	public enum SpawnChance{
-		Goblin = 12
+		Goblin = 25,
+		Troll = 10,
+		Rat = 15,
+		Minotaur = 5
 	}
 
 	public enum LootChance{
-		Goblin = 10
+		Goblin = 30,
+		Troll = 40,
+		Rat = 50,
+		Minotaur = 40
 	}
 
 	public static readonly int cardNameLetters = 7;

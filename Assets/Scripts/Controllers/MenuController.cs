@@ -16,6 +16,7 @@ public class MenuController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(!found){
+			found = true;
 			score = GameObject.FindGameObjectWithTag ("Score");
 			if(score == null){
 				score =GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/ScoreController"), new Vector2 (), Quaternion.identity) as GameObject;

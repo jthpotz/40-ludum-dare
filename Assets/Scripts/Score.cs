@@ -16,8 +16,6 @@ public class Score : MonoBehaviour {
 	void Start () {
 		GameObject.DontDestroyOnLoad (gameObject);
 
-		UpdateHighScore ();
-
 	}
 	
 	// Update is called once per frame

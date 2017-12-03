@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 using CardEffect = GlobalConstants.CardEffect;
 using SpawnChance = GlobalConstants.SpawnChance;
@@ -10,7 +11,7 @@ using EventName = GlobalConstants.EventName;
 public class WorldController : MonoBehaviour {
 
 	private GameObject self;
-	private WorldController selfScript;
+	public WorldController selfScript;
 
 	public GameObject canvas;
 	private GameObject canvasController;
@@ -27,11 +28,20 @@ public class WorldController : MonoBehaviour {
 
 	private int distance = 0;
 
+	public int Distance{
+		get { return distance; }
+		set { distance += value; }
+	}
 
 	private float moveDelay;
 	private float eventDelay;
 
 	private bool msgDone = true;
+
+	private GameObject moveInd;
+	private Image i1;
+	private Image i2;
+	private Image i3;
 
 	// Use this for initialization
 	void Start () {
@@ -48,6 +58,21 @@ public class WorldController : MonoBehaviour {
 
 		disp = GameObject.Instantiate (Resources.Load ("Prefabs/Controllers/DisplayController"), new Vector2 (), Quaternion.identity) as GameObject;
 		displayMessage = disp.GetComponent<DisplayMessage> ();
+
+		moveInd = GameObject.Instantiate (Resources.Load ("Prefabs/StatusBars/MoveInd"), new Vector2 (), Quaternion.identity) as GameObject;
+		((RectTransform)(moveInd.transform)).SetParent (canvas.transform, false);
+
+		foreach(Transform ch in moveInd.transform){
+			if(ch.CompareTag ("Dot1")){
+				i1 = ch.GetComponent<Image> ();
+			}
+			if(ch.CompareTag ("Dot2")){
+				i2 = ch.GetComponent<Image> ();
+			}
+			if(ch.CompareTag ("Dot3")){
+				i3 = ch.GetComponent<Image> ();
+			}
+		}
 
 //		displayMessage.Display ("Welcome to LD 40! BaBam new line here?", canvas);
 //		displayMessage.Display ("!.?/-^_><@#$%&*", canvas);
@@ -74,11 +99,25 @@ public class WorldController : MonoBehaviour {
 //			CanvasController.UpdateHealth (e.Health);
 			moveDelay += Time.deltaTime;
 			Debug.Log (moveDelay);
-			Debug.Log (GlobalConstants.baseTimePerMovem * (p.H.CurrentCapacity / p.H.TotalCapacity));
-			Debug.Log (p.H.CurrentCapacity + ", " + p.H.TotalCapacity);
+
+			if(!i1.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(1/4)){
+				i1.enabled = true;
+			}
+
+			if(!i2.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(1/2)){
+				i2.enabled = true;
+			}
+
+			if(!i3.enabled && moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity) * (float)(3/4)){
+				i3.enabled = true;
+			}
+
 			if (moveDelay >= GlobalConstants.baseTimePerMovem * ((float)p.H.CurrentCapacity / (float)p.H.TotalCapacity)) {
 				moveDelay = 0;
 				distance--;
+				i1.enabled = false;
+				i2.enabled = false;
+				i3.enabled = false;
 				CanvasController.UpdateDistance (distance);
 			}
 
@@ -95,6 +134,30 @@ public class WorldController : MonoBehaviour {
 							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
 							return;
 						}
+						if (Random.Range (0, 100) < (int)SpawnChance.Troll) {
+							e = new Enemy (EnemyDescriptions.troll);
+							ccScript.AnEnemyAppears (e);
+							CanvasController.UpdateHealth (e.Health);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+							return;
+						}
+						if (Random.Range (0, 100) < (int)SpawnChance.Rat) {
+							e = new Enemy (EnemyDescriptions.rat);
+							ccScript.AnEnemyAppears (e);
+							CanvasController.UpdateHealth (e.Health);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+							return;
+						}
+						if (Random.Range (0, 100) < (int)SpawnChance.Minotaur) {
+							e = new Enemy (EnemyDescriptions.minotaur);
+							ccScript.AnEnemyAppears (e);
+							CanvasController.UpdateHealth (e.Health);
+							displayMessage.Display ("An enemy " + e.Name + " appears!", canvas);
+							Invoke ("StartPlayerTurn", GlobalConstants.waitTime);
+							return;
+						}
 					}
 				}
 				else if(Random.Range (0, 100) < GlobalConstants.eventChance){
@@ -103,6 +166,62 @@ public class WorldController : MonoBehaviour {
 							msgDone = false;
 							Invoke ("MsgDone", GlobalConstants.waitTime);
 							Events.DoEvent (EventName.FindLoot, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Energize){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Energize, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.SuperStrength){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.SuperStrength, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Weaken){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Weaken, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.ParalysingWeakness){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.ParalysingWeakness, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Speed){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Speed, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Flash){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Flash, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Lost){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Lost, this);
+							p.H.DisableCards ();
+							return;
+						}
+						if(Random.Range (0, 100) < (int)EventChance.Bewildered){
+							msgDone = false;
+							Invoke ("MsgDone", GlobalConstants.waitTime);
+							Events.DoEvent (EventName.Bewildered, this);
 							p.H.DisableCards ();
 							return;
 						}
@@ -124,7 +243,7 @@ public class WorldController : MonoBehaviour {
 	}
 
 	public void AddStarterCards(){
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			p.H.AddCard (Card.CreateCard (CardDescriptions.coin));
 		}
 		p.H.AddCard (Card.CreateCard (CardDescriptions.coinStack));
@@ -132,6 +251,8 @@ public class WorldController : MonoBehaviour {
 		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword));
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.quickShoe));
+
+		p.H.AddCard (Card.CreateCard (CardDescriptions.blink));
 
 	}
 		

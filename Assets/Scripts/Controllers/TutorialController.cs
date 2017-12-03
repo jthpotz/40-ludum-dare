@@ -37,6 +37,11 @@ public class TutorialController : MonoBehaviour {
 	}
 
 	public void Intro(){
+		displayMessage.Display ("As a hoarder you collect everything", canvas);
+		Invoke ("Intro2", GlobalConstants.waitTime);
+	}
+
+	public void Intro2(){
 		displayMessage.Display ("This tutorial will show you the basics", canvas);
 		Invoke ("Weight", GlobalConstants.waitTime);
 	}
