@@ -39,7 +39,7 @@ public class EnemyDescriptions {
 
 	public class Rat : EnemyDescriptions {
 		public Rat (){
-			health = 5;
+			health = 6;
 			name = EnemyName.Rat;
 			attack = EnemyAttack.HitSmall;
 			loot = LootChance.Rat;
@@ -48,7 +48,7 @@ public class EnemyDescriptions {
 
 	public class Minotaur : EnemyDescriptions {
 		public Minotaur (){
-			health = 6;
+			health = 7;
 			name = EnemyName.Minotaur;
 			attack = EnemyAttack.Hit;
 			loot = LootChance.Minotaur;

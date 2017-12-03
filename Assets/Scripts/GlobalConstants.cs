@@ -78,8 +78,8 @@ public class GlobalConstants {
 	public enum CardDrop{
 		Treasure = 20,
 		Weapon = 15,
-		Utility = 15,
-		Spell = 10,
+		Utility = 12,
+		Spell = 8,
 		Junk= 10,
 		Struggle = 0
 	}

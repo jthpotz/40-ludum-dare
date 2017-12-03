@@ -190,10 +190,10 @@ public class CardDescriptions {
 
 	public class SmallSling : CardDescriptions{
 		public SmallSling(){
-			weight = 1;
+			weight = 3;
 			attack = 1;
 			value = 2;
-			uses = 6;
+			uses = 5;
 			capacity = 0;
 			teleport = 0;
 			type = CardType.Weapon;
@@ -204,9 +204,9 @@ public class CardDescriptions {
 
 	public class HeavySling : CardDescriptions{
 		public HeavySling(){
-			weight = 3;
+			weight = 4;
 			attack = 3;
-			value = 2;
+			value = 4;
 			uses = 3;
 			capacity = 0;
 			teleport = 0;
