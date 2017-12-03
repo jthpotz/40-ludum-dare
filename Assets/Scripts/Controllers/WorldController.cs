@@ -270,7 +270,7 @@ public class WorldController : MonoBehaviour {
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.blink));
 
-		p.H.AddCard (Card.CreateCard (CardDescriptions.smallSling));
+		//p.H.AddCard (Card.CreateCard (CardDescriptions.smallSling));
 	}
 		
 	public void DealDamage(int dmg){

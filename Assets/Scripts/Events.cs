@@ -90,12 +90,12 @@ public class Events {
 	}
 
 	private static void Lost(WorldController wc){
-		wc.Distance = -5;
+		wc.Distance = 5;
 		wc.displayMessage.Display ("You get slightly turned around!", wc.canvas, wc.aControl.powerUp);
 	}
 
 	private static void Bewildered(WorldController wc){
-		wc.Distance = -10;
+		wc.Distance = 10;
 		wc.displayMessage.Display ("You realize you are lost!", wc.canvas, wc.aControl.powerUp);
 	}
 

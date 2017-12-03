@@ -69,10 +69,11 @@ public class Enemy {
 	}
 
 	public void ThrowSmall(WorldController wc, Card c){
-		int rocks = Random.Range (1, 3);
-		if(rocks == 2){
-			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
-			wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
+		int rocks = Random.Range (1, 4);
+		if(rocks > 1){
+			for(int i = 0; i < rocks; i++){
+				wc.p.H.AddCard (Card.CreateCard (CardDescriptions.smallRock));
+			}
 			wc.displayMessage.Display ("The " + wc.e.Name + " threw " + rocks + " rocks at you.", wc.canvas, wc.aControl.enemyAttack);
 		}
 		else{
@@ -107,7 +108,7 @@ public class Enemy {
 	public void Drag(WorldController wc, Card c){
 		wc.Distance = 3;
 		CanvasController.UpdateDistance (wc.Distance);
-		wc.displayMessage.Display ("The " + wc.e.name + " dragged you backwards 5!", wc.canvas, wc.aControl.enemyAttack);
+		wc.displayMessage.Display ("The " + wc.e.name + " dragged you backwards 3!", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 

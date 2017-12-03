@@ -21,7 +21,7 @@ public class EnemyDescriptions {
 
 	public class Goblin : EnemyDescriptions {
 		public Goblin (){
-			health = 6;
+			health = 5;
 			name = EnemyName.Goblin;
 			attack = EnemyAttack.ThrowSmall;
 			loot = LootChance.Goblin;
@@ -30,7 +30,7 @@ public class EnemyDescriptions {
 
 	public class Troll : EnemyDescriptions {
 		public Troll (){
-			health = 8;
+			health = 9;
 			name = EnemyName.Troll;
 			attack = EnemyAttack.Throw;
 			loot = LootChance.Troll;
@@ -48,7 +48,7 @@ public class EnemyDescriptions {
 
 	public class Minotaur : EnemyDescriptions {
 		public Minotaur (){
-			health = 5;
+			health = 6;
 			name = EnemyName.Minotaur;
 			attack = EnemyAttack.Hit;
 			loot = LootChance.Minotaur;
