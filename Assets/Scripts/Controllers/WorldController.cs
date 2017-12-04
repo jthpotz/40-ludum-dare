@@ -266,7 +266,7 @@ public class WorldController : MonoBehaviour {
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.rustySword));
 
-		p.H.AddCard (Card.CreateCard (CardDescriptions.quickShoe));
+		p.H.AddCard (Card.CreateCard (CardDescriptions.smallBag));
 
 		p.H.AddCard (Card.CreateCard (CardDescriptions.blink));
 

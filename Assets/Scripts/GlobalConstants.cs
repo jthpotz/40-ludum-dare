@@ -28,7 +28,7 @@ public class GlobalConstants {
 		CoinStack,
 		RustySword,
 		SmallRock,
-		QuickShoe,
+		SmallBag,
 		Rock,
 		Backpack,
 		DullAxe,

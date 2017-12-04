@@ -23,7 +23,7 @@ public class CardDescriptions {
 	public static readonly CoinStack coinStack = new CoinStack ();
 	public static readonly RustySword rustySword = new RustySword ();
 	public static readonly SmallRock smallRock = new SmallRock ();
-	public static readonly QuickShoe quickShoe = new QuickShoe ();
+	public static readonly SmallBag smallBag = new SmallBag ();
 	public static readonly Rock rock = new Rock ();
 	public static readonly Backpack backpack = new Backpack ();
 	public static readonly DullAxe dullAxe = new DullAxe ();
@@ -90,8 +90,8 @@ public class CardDescriptions {
 		}
 	}
 
-	public class QuickShoe : CardDescriptions{
-		public QuickShoe(){
+	public class SmallBag : CardDescriptions{
+		public SmallBag(){
 			weight = 2;
 			attack = 1;
 			value = 1;
@@ -99,7 +99,7 @@ public class CardDescriptions {
 			capacity = 1;
 			teleport = 0;
 			type = CardType.Utility;
-			name = CardName.QuickShoe;
+			name = CardName.SmallBag;
 			action = CardEffect.ChangeCapacity;
 		}
 	}
@@ -289,8 +289,8 @@ public class CardDescriptions {
 			return CardDescriptions.rustySword;
 		case CardName.SmallRock:
 			return CardDescriptions.smallRock;
-		case CardName.QuickShoe:
-			return CardDescriptions.quickShoe;
+		case CardName.SmallBag:
+			return CardDescriptions.smallBag;
 		case CardName.Rock:
 			return CardDescriptions.rock;
 		case CardName.Backpack:
