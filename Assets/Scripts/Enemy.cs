@@ -101,7 +101,7 @@ public class Enemy {
 	public void Hit(WorldController wc, Card c){
 		wc.p.H.TotalCapacity = -2;
 		CanvasController.UpdateMaxCapacity (wc.p.H.TotalCapacity);
-		wc.displayMessage.Display ("The " + wc.e.Name + " minorly injured you.", wc.canvas, wc.aControl.enemyAttack);
+		wc.displayMessage.Display ("The " + wc.e.Name + " injured you.", wc.canvas, wc.aControl.enemyAttack);
 		wc.p.H.DisableCards ();
 	}
 
